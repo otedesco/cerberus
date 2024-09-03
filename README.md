@@ -1,5 +1,22 @@
 # Apart microservices backend
-
+TODO:
+[ ] 
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
 Microservices architecture backend, built with Node.js and Typescript.
 
 ![alt text](https://github.com/apart-re/cerberus/blob/main/docs/diagram.png?raw=true)
