@@ -12,7 +12,7 @@ jobs:
   release-service:
     name: Release Docker image
     runs-on: ubuntu-latest
-    if: contains(github.event.commits.message, 'Version Packages')
+    # if: contains(github.event.commits.message, 'Version Packages')
     strategy:
       matrix:
         include:
