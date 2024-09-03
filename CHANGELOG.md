@@ -1,5 +1,13 @@
 # @otedesco/cerberus
 
+## 0.0.5
+
+### Patch Changes
+
+- [#11](https://github.com/otedesco/cerberus/pull/11) [`996b03d`](https://github.com/otedesco/cerberus/commit/996b03d90dc3d3531825b6ea930ee0493796fdf8) Thanks [@otedesco](https://github.com/otedesco)! - omit lib check config typescript
+
+- [#9](https://github.com/otedesco/cerberus/pull/9) [`4f251be`](https://github.com/otedesco/cerberus/commit/4f251be7301d51b104a8bd8f97edbc5cda283c4a) Thanks [@otedesco](https://github.com/otedesco)! - fix trigger
+
 ## 0.0.4
 
 ### Patch Changes
