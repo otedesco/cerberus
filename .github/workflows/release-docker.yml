@@ -24,7 +24,7 @@ jobs:
 
       - name: replace token
         run: |
-          echo "$(sed 's/\(_authToken=\)[a-z0-9]*\($\)/\1${{ secrets.NPM_TOKEN }}\2/g' .npmrc)" > .npmrc
+          echo -e "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > "./.npmrc"
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
