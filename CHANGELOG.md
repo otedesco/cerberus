@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.3
+
+### Patch Changes
+
+- [#5](https://github.com/otedesco/cerberus/pull/5) [`90f9302`](https://github.com/otedesco/cerberus/commit/90f9302591073e007b9aa87d1f75f7498eb8df95) Thanks [@otedesco](https://github.com/otedesco)! - add tags trigger gha
+
 ## 0.0.2
 
 ### Patch Changes
