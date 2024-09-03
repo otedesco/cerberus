@@ -1,0 +1,27 @@
+import { Request, Response } from 'express';
+
+import { createResponse } from '../../../handlers';
+import { Account } from '../interfaces/Account';
+import * as AccountService from '../services/AccountService';
+
+export async function verify(req: Request, res: Response): Promise<void> {
+  const { token } = req.query as { token: string };
+  const { status, data } = await createResponse(AccountService.verifyEmail({ token }), { code: 204 });
+
+  res.status(status).json(data);
+}
+
+export async function recovery(req: Request, res: Response): Promise<void> {
+  const payload: Partial<Account> = req.body;
+  const { status, data } = await createResponse(AccountService.recovery(payload), { code: 204 });
+
+  res.status(status).json(data);
+}
+
+export async function changePassword(req: Request, res: Response) {
+  const payload: Partial<Account> = req.body;
+  const { token } = req.query as { token: string };
+  const { status, data } = await createResponse(AccountService.changePassword(payload, token), { code: 204 });
+
+  res.status(status).json(data);
+}
