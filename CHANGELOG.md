@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.2
+
+### Patch Changes
+
+- [#3](https://github.com/otedesco/cerberus/pull/3) [`bcb55e2`](https://github.com/otedesco/cerberus/commit/bcb55e237fadaaece26817b9b307b46d02af61ec) Thanks [@otedesco](https://github.com/otedesco)! - add release script
+
 ## 0.0.1
 
 ### Patch Changes
