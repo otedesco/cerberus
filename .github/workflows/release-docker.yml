@@ -23,8 +23,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: replace token
-        run: echo "$(sed 's/\(_authToken=\)[a-z0-9]*\($\)/\1${{ secrets.NPM_TOKEN }}\2/g' .npmrc)" > .npmrc
-
+        run: |
+          echo "$(sed 's/\(_authToken=\)[a-z0-9]*\($\)/\1${{ secrets.NPM_TOKEN }}\2/g' .npmrc)" > .npmrc
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -46,5 +46,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          build-args: ${{ secrets.NPM_TOKEN }}
+        # env:
+        #   NPM_TOKEN: ${{secrets.NPM_TOKEN}}
