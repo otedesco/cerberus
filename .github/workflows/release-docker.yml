@@ -2,35 +2,29 @@ name: Release Docker Images
 
 on:
   push:
-    # branches:
-    #   - 'main'
     tags:
-      - '*'
-  # pull_request:
-  #   branches:
-  #     - 'main'
+      - '**'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release-service:
-    name: Release Docker image
+    name: Release Docker Image
     runs-on: ubuntu-latest
-    # if: contains(github.event.commits.message, 'Version Packages')
     strategy:
       matrix:
         include:
-          - image: ghcr.io/${{github.repository_owner}}/cerberus
+          - image: ghcr.io/${{ github.repository_owner }}/cerberus
             dockerfile: ./Dockerfile
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: replace token
-        run: |
-          echo -e "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > "./.npmrc"
+      - name: Replace npm token
+        run: echo -e "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > ".npmrc"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -44,7 +38,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Build and push Docker images
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -52,4 +46,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ secrets.NPM_TOKEN }}
+          build-args: |
+            NPM_TOKEN=${{ secrets.NPM_TOKEN }}

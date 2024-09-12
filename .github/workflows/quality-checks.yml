@@ -2,32 +2,42 @@ name: Quality checks
 
 on:
   workflow_call:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - '*'
   push:
     branches:
       - '*'
-  pull_request:
-    types: [opened]
-    branches:
-      - '*'
+    paths-ignore:
+      - 'main'
 
 jobs:
-  build:
-    name: Build
+  common:
+    name: Common Setup
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
+    outputs:
+      bun_path: ${{ steps.upload-bun.outputs.bun_path }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+
       - name: Setup environment
+        id: setup
         uses: otedesco/cerberus/.github/actions/setup-environment@main
         with:
           os: ubuntu-latest
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
         env:
@@ -36,94 +46,115 @@ jobs:
           echo "Running pnpm install"
           pnpm install
 
-      - name: Build
-        run: bun run build
+      - name: Upload bun installation
+        id: upload-bun
+        uses: actions/upload-artifact@v3
+        with:
+          name: bun
+          path: ~/.bun
 
   typecheck:
     name: Typecheck
-    needs: [build]
-    timeout-minutes: 15
     runs-on: ubuntu-latest
+    needs: [common]
+    timeout-minutes: 15
 
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Setup environment
-        uses: otedesco/cerberus/.github/actions/setup-environment@main
+      - name: Download bun installation
+        uses: actions/download-artifact@v3
         with:
-          os: ubuntu-latest
+          name: bun
 
-      - name: Install dependencies
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "Running pnpm install"
-          pnpm install
+      - name: Restore pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Typecheck
         run: bun run type:check
 
   tests:
-    needs: [build]
     name: Tests
-    timeout-minutes: 15
     runs-on: ubuntu-latest
+    needs: [common]
+    timeout-minutes: 15
 
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Setup environment
-        uses: otedesco/cerberus/.github/actions/setup-environment@main
+      - name: Download bun installation
+        uses: actions/download-artifact@v3
         with:
-          os: ubuntu-latest
-      ## Remove repeated code
-      - name: Install dependencies
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "Running pnpm install"
-          pnpm install
+          name: bun
+
+      - name: Restore pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Test
         run: bun run test
 
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v3
-      #   env:
-      #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
   linting:
     name: Linting
-    needs: [build]
-    timeout-minutes: 15
     runs-on: ubuntu-latest
+    needs: [common]
+    timeout-minutes: 15
 
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Setup environment
-        uses: otedesco/cerberus/.github/actions/setup-environment@main
+      - name: Download bun installation
+        uses: actions/download-artifact@v3
         with:
-          os: ubuntu-latest
+          name: bun
 
-      - name: Install dependencies
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "Running pnpm install"
-          pnpm install
+      - name: Restore pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Linting
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
         continue-on-error: true
         run: bun run lint:check
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [typecheck, tests, linting]
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Download bun installation
+        uses: actions/download-artifact@v3
+        with:
+          name: bun
+
+      - name: Restore pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Build
+        run: pnpm build
