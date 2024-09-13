@@ -9,8 +9,8 @@ export const TIMEOUT = Number(environment.DB_TIMEOUT) || 200;
 export const CONNECTION_KEEP_ALIVE_TIMEOUT = Number(environment.CONNECTION_KEEP_ALIVE_TIMEOUT) || 60000;
 export const CONNECTION_POOL_SIZE = Number(environment.DB_CONNECTION_POOL_SIZE) || 20;
 export const DEBUG = environment.DB_DEBUG === 'true' || false;
-export const MIGRATIONS_DIRECTORY = environment.MIGRATIONS_DIRECTORY || './src/database/migrations';
-export const SEEDS_DIRECTORY = environment.SEEDS_DIRECTORY || './src/database/seeds';
+export const MIGRATIONS_DIRECTORY = environment.NODE_ENV === 'production' ? './dist/database/migrations' : './src/database/migrations';
+export const SEEDS_DIRECTORY = environment.NODE_ENV === 'production' ? './dist/database/seeds' : './src/database/seeds';
 
 // TABLE NAMES
 export const MIGRATIONS_TABLE = 'knex_migrations';
