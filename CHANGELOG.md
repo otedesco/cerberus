@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.10
+
+### Patch Changes
+
+- [#20](https://github.com/otedesco/cerberus/pull/20) [`3660712`](https://github.com/otedesco/cerberus/commit/36607120ab27fbad9f19d2641c662618a6ac2eda) Thanks [@otedesco](https://github.com/otedesco)! - test release docker :(
+
 ## 0.0.9
 
 ### Patch Changes
