@@ -1,5 +1,5 @@
-import { notify } from '@otedesco/notify';
 import { compareWithHash, generateHash, sign, verify } from '@otedesco/commons';
+import { notify } from '@otedesco/notify';
 import _ from 'lodash';
 import { Transaction } from 'objection';
 

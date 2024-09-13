@@ -1,5 +1,5 @@
-import { notify } from '@otedesco/notify';
 import { sign } from '@otedesco/commons';
+import { notify } from '@otedesco/notify';
 import _ from 'lodash';
 
 import { Components, EventsByComponent, SECRET_KEY, Topics, VERIFICATION_TOKEN_EXPIRE } from '../../../configs';

@@ -1,5 +1,5 @@
-import { LoggerFactory } from '@otedesco/server-utils';
 import { BaseException, InternalServerError, NotNullError, UniqueViolatedError } from '@otedesco/commons';
+import { LoggerFactory } from '@otedesco/server-utils';
 import { DBError, NotNullViolationError, UniqueViolationError } from 'objection-db-errors';
 
 const { logger } = LoggerFactory.getInstance(__filename);
