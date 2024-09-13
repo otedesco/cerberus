@@ -3,6 +3,8 @@ name: Release Docker Images
 on:
   workflow_dispatch:
   push:
+    branches:
+      - 'release/*'
     tags:
       - '*'
 
