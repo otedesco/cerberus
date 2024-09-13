@@ -1,14 +1,14 @@
-import { MIGRATIONS_TABLE } from './src/configs/DBConfig';
+import { MIGRATIONS_DIRECTORY, MIGRATIONS_TABLE, SEEDS_DIRECTORY } from './src/configs/DBConfig';
 import { dbConnection } from './src/database';
 
 const db = {
   ...dbConnection,
   migrations: {
     tableName: MIGRATIONS_TABLE,
-    directory: './src/database/migrations',
+    directory: MIGRATIONS_DIRECTORY,
   },
   seeds: {
-    directory: './src/database/seeds',
+    directory: SEEDS_DIRECTORY,
   },
 };
 

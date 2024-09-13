@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@otedesco/cache':
-        specifier: ^0.0.6
-        version: 0.0.6
+        specifier: ^0.0.7
+        version: 0.0.7
       '@otedesco/commons':
-        specifier: ^0.0.4
-        version: 0.0.4(knex@2.5.1(pg@8.12.0))
+        specifier: ^0.0.5
+        version: 0.0.5(knex@2.5.1(pg@8.12.0))
       '@otedesco/notify':
-        specifier: ^0.0.2
-        version: 0.0.2(knex@2.5.1(pg@8.12.0))
+        specifier: ^0.0.3
+        version: 0.0.3(knex@2.5.1(pg@8.12.0))
       '@otedesco/server-utils':
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.0.2
+        version: 0.0.2
       ajv:
         specifier: ^8.12.0
         version: 8.17.1
@@ -578,25 +578,21 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@otedesco/cache@0.0.6':
-    resolution: {integrity: sha512-fLCKKOBTzM+AZGzLYSxZ6SOWG7EjMSejfg+ygTqLu/dgGl4hHL5smaX30TJwxSOpsEPQdorjcDQZ/+4eAvf1FA==, tarball: https://npm.pkg.github.com/download/@otedesco/cache/0.0.6/688a79eb17955886bfb2a2d4376beb225d10d428}
-    engines: {pnpm: '>8.6.10'}
+  '@otedesco/cache@0.0.7':
+    resolution: {integrity: sha512-vue+Fr9KOCWcpI4QaU+yy9bfXAVT2jaezCFDjD0xGEgA0lPVP+W6Pk9sz3UBZFugIhqK7mMLHR/jQd3LilNlhA==, tarball: https://npm.pkg.github.com/download/@otedesco/cache/0.0.7/a0ebf4360b49fd9138bf277557bf06e0e01a1293}
 
   '@otedesco/commons@0.0.2':
     resolution: {integrity: sha512-VhvgI/c69wLMKpEauOQ0ONUwMuMcfcrlRDqUeEjtvqT+l91tnmnalZHg0w6oSuGtV5w+0UE+piDKH3q79gJUfQ==, tarball: https://npm.pkg.github.com/download/@otedesco/commons/0.0.2/d97c65df5325f4d7057b94e385cf8751fa658d20}
     engines: {pnpm: '>8.6.10'}
 
-  '@otedesco/commons@0.0.4':
-    resolution: {integrity: sha512-Vkt4cmin+aLmamksUlqe72YJ06f7U2ruW9xD2ufNSut8dRNK/RL3dJbmGYXOVX+fqJpqCfdhL0q7aM37aOTrKA==, tarball: https://npm.pkg.github.com/download/@otedesco/commons/0.0.4/a5a53a1d3e02499de4bb09d3429f51afb377aee8}
-    engines: {pnpm: '>8.6.10'}
+  '@otedesco/commons@0.0.5':
+    resolution: {integrity: sha512-ZZypyA6HgvpdYRJD/8xh0Av5KLljRqMnLCb1qrxMeAL05HaRzhwEn25It4AHXRtQX/J6GNclWRydl6K4mvVtIw==, tarball: https://npm.pkg.github.com/download/@otedesco/commons/0.0.5/61580233e05b0c4e6c2ffb41796cab0bc08641c1}
 
-  '@otedesco/notify@0.0.2':
-    resolution: {integrity: sha512-vdMUi0o/8CrelsorwbZ0MVnkKRMr4t1XZtxkvd2fFakqo9C1E+pN2KCHYzq78GsYrobCKwGFFYBi/+8mfM8Wsg==, tarball: https://npm.pkg.github.com/download/@otedesco/notify/0.0.2/461f8d3c2f93e5feaac3166d687f2c8d62a74f1d}
-    engines: {pnpm: '>8.6.10'}
+  '@otedesco/notify@0.0.3':
+    resolution: {integrity: sha512-SbrnOQFvXlo1XqQgiKCAfhDLtKC32+1RosZfKhT52MtWcdpITPBRFsKkgp7QUdUV0AjDkCeFMka5gzfjLCgUTQ==, tarball: https://npm.pkg.github.com/download/@otedesco/notify/0.0.3/42b2a1b6262cc1d69c7b13324b4db7d7d799b38b}
 
-  '@otedesco/server-utils@0.0.1':
-    resolution: {integrity: sha512-Dic7q/3Sujj+pqM8U9Sb9tCv3sTf6e2YaEaAul2pa4ee7ZT+CiDjzmGi/ZWWhkf4XzU14FgqbBzRHgQQl9zwcA==, tarball: https://npm.pkg.github.com/download/@otedesco/server-utils/0.0.1/56d9583ac83b666d12be771453682baa02eab45b}
-    engines: {pnpm: '>8.6.10'}
+  '@otedesco/server-utils@0.0.2':
+    resolution: {integrity: sha512-wKPcoJzAlGkMe2MDZo9d50gUIb91wMTbiJhxwlM+/RXIq67595lWTSwpHydqJhm68AuF69RPvu7/8GRO1tpeaA==, tarball: https://npm.pkg.github.com/download/@otedesco/server-utils/0.0.2/be0aeb9404e5f9e4430eb90db07500e9f8a34d00}
 
   '@redis/bloom@1.2.0':
     resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
@@ -4248,7 +4244,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
-  '@otedesco/cache@0.0.6':
+  '@otedesco/cache@0.0.7':
     dependencies:
       lodash: 4.17.21
       redis: 4.7.0
@@ -4267,7 +4263,7 @@ snapshots:
       - encoding
       - knex
 
-  '@otedesco/commons@0.0.4(knex@2.5.1(pg@8.12.0))':
+  '@otedesco/commons@0.0.5(knex@2.5.1(pg@8.12.0))':
     dependencies:
       bcryptjs: 2.4.3
       bluebird: 3.7.2
@@ -4278,7 +4274,7 @@ snapshots:
     transitivePeerDependencies:
       - knex
 
-  '@otedesco/notify@0.0.2(knex@2.5.1(pg@8.12.0))':
+  '@otedesco/notify@0.0.3(knex@2.5.1(pg@8.12.0))':
     dependencies:
       '@azure/service-bus': 7.9.5
       '@otedesco/commons': 0.0.2(knex@2.5.1(pg@8.12.0))
@@ -4291,7 +4287,7 @@ snapshots:
       - knex
       - supports-color
 
-  '@otedesco/server-utils@0.0.1':
+  '@otedesco/server-utils@0.0.2':
     dependencies:
       app-root-path: 3.1.0
       compression: 1.7.4

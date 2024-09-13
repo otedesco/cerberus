@@ -66,10 +66,10 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@otedesco/cache": "^0.0.6",
-    "@otedesco/commons": "^0.0.4",
-    "@otedesco/notify": "^0.0.2",
-    "@otedesco/server-utils": "^0.0.1",
+    "@otedesco/cache": "^0.0.7",
+    "@otedesco/commons": "^0.0.5",
+    "@otedesco/notify": "^0.0.3",
+    "@otedesco/server-utils": "^0.0.2",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
     "bluebird": "^3.7.2",
