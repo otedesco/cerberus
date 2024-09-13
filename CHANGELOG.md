@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.12
+
+### Patch Changes
+
+- [#24](https://github.com/otedesco/cerberus/pull/24) [`0782f5c`](https://github.com/otedesco/cerberus/commit/0782f5c3df33d27e554b18e7e051dbf55ad07a04) Thanks [@otedesco](https://github.com/otedesco)! - Fix DB config, make migrations dir configurable from environment vars
+
 ## 0.0.11
 
 ### Patch Changes
