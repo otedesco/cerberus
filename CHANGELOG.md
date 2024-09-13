@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.9
+
+### Patch Changes
+
+- [#18](https://github.com/otedesco/cerberus/pull/18) [`5473940`](https://github.com/otedesco/cerberus/commit/54739401a6d7752d29312ca622dfd67937f04ce7) Thanks [@otedesco](https://github.com/otedesco)! - test
+
 ## 0.0.8
 
 ### Patch Changes
