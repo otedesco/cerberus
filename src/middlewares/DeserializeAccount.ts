@@ -1,5 +1,5 @@
-import { LoggerFactory } from '@otedesco/server-utils';
 import { verify } from '@otedesco/commons';
+import { LoggerFactory } from '@otedesco/server-utils';
 import { NextFunction, Request, Response } from 'express';
 import _ from 'lodash';
 
