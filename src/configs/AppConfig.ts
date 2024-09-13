@@ -16,6 +16,9 @@ export const SECRET_KEY = environment.PRIVATE_KEY || 'super-secret-key';
 export const PUBLIC_KEY = environment.PUBLIC_KEY || 'not-so-secret-key';
 export const REFRESH_SECRET_KEY = environment.REFRESH_SECRET_KEY || 'super-secret-key';
 export const REFRESH_PUBLIC_KEY = environment.REFRESH_PUBLIC_KEY || 'not-so-secret-key';
+export const ADMIN_API_KEY = environment.ADMIN_API_KEY || 'admin';
+export const USER_ID_HEADER = 'x-user-id';
+export const API_KEY_HEADER = environment.API_KEY_HEADER || 'x-api-key';
 export const TOKEN_EXPIRE = 7 * 24 * 60 * 60;
 export const SESSION_EXPIRE = 15 * 24 * 60 * 60;
 export const VERIFICATION_TOKEN_EXPIRE = 1 * 24 * 60 * 60;
@@ -41,3 +44,7 @@ export const SALT_ROUNDS = Number(environment.SALT_ROUNDS) || 10;
 export const PROMISE_CONCURRENCY = Number(environment.PROMISE_CONCURRENCY) || 10;
 
 export const APP_CACHE_ENABLED = environment.APP_CACHE_ENABLED === 'true' || false;
+
+export const REQUESTER = {
+  userId: `aprt-re-${APP_NAME}-${NODE_ENV}`,
+};
