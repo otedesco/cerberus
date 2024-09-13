@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.11
+
+### Patch Changes
+
+- [#22](https://github.com/otedesco/cerberus/pull/22) [`8f8f4dc`](https://github.com/otedesco/cerberus/commit/8f8f4dca26a565cc75d174d2f2ac00e8d6e53c2c) Thanks [@otedesco](https://github.com/otedesco)! - Add knex migrations API to handle unlock, list, up, and down methods
+
 ## 0.0.10
 
 ### Patch Changes
