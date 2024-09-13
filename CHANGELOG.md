@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.7
+
+### Patch Changes
+
+- [#14](https://github.com/otedesco/cerberus/pull/14) [`af099e3`](https://github.com/otedesco/cerberus/commit/af099e3e1a7077eb08a740206f37539924fb19b9) Thanks [@otedesco](https://github.com/otedesco)! - refactor workflows
+
 ## 0.0.6
 
 ### Patch Changes
