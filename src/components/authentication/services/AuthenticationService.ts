@@ -19,7 +19,7 @@ function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, retur
     const account = await AccountService.create(accountToCreate, tx);
     const profile = await ProfileService.create({ ...profileToCreate, account: account.id }, tx);
 
-    if (returning) return { ...account, profiles: [profile] };
+    if (returning) return { ...account, profile: profile };
   };
 }
 
