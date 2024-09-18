@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.13
+
+### Patch Changes
+
+- [#26](https://github.com/otedesco/cerberus/pull/26) [`1ba0ce6`](https://github.com/otedesco/cerberus/commit/1ba0ce66721ef938ca5eba676599de86c32b215f) Thanks [@otedesco](https://github.com/otedesco)! - add me endpoint
+
 ## 0.0.12
 
 ### Patch Changes
