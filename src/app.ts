@@ -2,7 +2,7 @@ import { Cache } from '@otedesco/cache';
 import { AppFactory, ConfigOptions, LoggerFactory } from '@otedesco/server-utils';
 import { Model } from 'objection';
 
-import { AccountRoute, AuthenticationRoute, KnexMigrationRoute, OrganizationRoute, PrivateAuthenticationRoute, RoleRoute } from './components';
+import { AccountRoute, AuthenticationRoute, KnexMigrationRoute, OrganizationRoute, PrivateAuthenticationRoute, ProfileRoute, RoleRoute } from './components';
 import { APP_CACHE_ENABLED, PORT, CACHE_HOST, CACHE_PORT } from './configs';
 import knex, { testDBConnection } from './database';
 import { handleError, logError } from './middlewares';
@@ -10,7 +10,7 @@ import { handleError, logError } from './middlewares';
 const { logger } = LoggerFactory.getInstance(__filename);
 
 const publicRoutes = [new AuthenticationRoute(), new AccountRoute()];
-const privateRoutes = [new PrivateAuthenticationRoute(), new OrganizationRoute(), new RoleRoute()];
+const privateRoutes = [new PrivateAuthenticationRoute(), new OrganizationRoute(), new RoleRoute(), new ProfileRoute()];
 const adminRoutes = [new KnexMigrationRoute()];
 
 const serverConfig: ConfigOptions = {

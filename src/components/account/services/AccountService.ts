@@ -22,9 +22,10 @@ function sanitize(account: Account): SecuredAccount {
 }
 
 function signVerificationToken(account: SecuredAccount): SecuredAccount {
-  const token = sign(_.pick(account, 'email'), SECRET_KEY, { expiresIn: `${VERIFICATION_TOKEN_EXPIRE}s` });
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const token = sign({ email: account.email, otp }, SECRET_KEY, { expiresIn: `${VERIFICATION_TOKEN_EXPIRE}s` });
 
-  return { ...account, token };
+  return { ...account, token, otp };
 }
 
 async function validateAccount({ email }: Partial<Account>): Promise<void> {
@@ -68,9 +69,10 @@ export async function create(payload: Partial<Account>, tx?: Transaction): Promi
   const accountData = await mapAccountData(payload);
   const account = sanitize(await CachedRepository.create(accountData, tx));
 
-  notify(topic, events.CreatedEvent, signVerificationToken(account));
+  const signedAccount = signVerificationToken(account);
+  notify(topic, events.CreatedEvent, signedAccount);
 
-  return account;
+  return { ...account, token: signedAccount.token };
 }
 
 export async function verifyAccount({ email, password, signed_session }: Partial<Account & SecuredAccount>): Promise<SecuredAccount> {
@@ -88,9 +90,12 @@ export async function verifyAccount({ email, password, signed_session }: Partial
   return sanitize(account);
 }
 
-export async function verifyEmail({ token }: { token: string }): Promise<void> {
-  const payload = verify<Partial<Account>>(token, PUBLIC_KEY);
+export async function verifyEmail({ token, otp }: { token?: string; otp: string }): Promise<void> {
+  if (!token) throw new ForbiddenException();
+
+  const payload = verify<Partial<{ email: string; otp: string }>>(token, PUBLIC_KEY);
   if (!payload) throw new ForbiddenException();
+  if (payload.otp !== otp) throw new ForbiddenException();
 
   const account = await CachedRepository.update({ email: payload.email, status: AccountStatus.VERIFIED });
   if (account) {

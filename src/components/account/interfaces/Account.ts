@@ -16,4 +16,4 @@ export interface Account {
   updatedAt?: string;
 }
 
-export type SecuredAccount = Omit<Account, 'password' | 'salt'> & { token?: string; signed_session?: string };
+export type SecuredAccount = Omit<Account, 'password' | 'salt'> & { token?: string; signed_session?: string; otp?: string };

@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
+import _ from 'lodash';
 
 import { createResponse } from '../../../handlers';
 import { Account } from '../interfaces/Account';
 import * as AccountService from '../services/AccountService';
 
 export async function verify(req: Request, res: Response): Promise<void> {
-  const { token } = req.query as { token: string };
-  const { status, data } = await createResponse(AccountService.verifyEmail({ token }), { code: 204 });
+  const token = _.get(req.headers, 'x-verification-token', null) as string;
+  const { otp } = req.body;
+  const { status, data } = await createResponse(AccountService.verifyEmail({ token, otp }), { code: 204 });
 
   res.status(status).json(data);
 }
