@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.14
+
+### Patch Changes
+
+- [#28](https://github.com/otedesco/cerberus/pull/28) [`db48d71`](https://github.com/otedesco/cerberus/commit/db48d71270c7cd8cdbb2ae9e939abf4aced118a6) Thanks [@otedesco](https://github.com/otedesco)! - add vercel deployment config
+
 ## 0.0.13
 
 ### Patch Changes
