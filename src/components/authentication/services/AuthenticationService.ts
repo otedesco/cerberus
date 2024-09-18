@@ -19,7 +19,7 @@ function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, retur
     const account = await AccountService.create(accountToCreate, tx);
     const profile = await ProfileService.create({ ...profileToCreate, account: account.id }, tx);
 
-    if (returning) return { account, profiles: [profile] };
+    if (returning) return { ...account, profiles: [profile] };
   };
 }
 
@@ -34,11 +34,12 @@ async function signSession(handler: Promise<SecuredAccount | null>) {
     refresh_token: sign(payload, REFRESH_SECRET_KEY, {
       expiresIn: `${SESSION_EXPIRE}s`,
     }),
+    account,
   };
 }
 
 export async function signUp(payload: Pick<Account, 'email' | 'password'>): Promise<Account> {
-  return Transactional.run(transactionalCreate(payload));
+  return Transactional.run(transactionalCreate(payload, true));
 }
 
 export function signIn(payload: SignIn) {

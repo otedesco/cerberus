@@ -44,9 +44,9 @@ export const emailVerificationSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    token: { type: 'string', nullable: false },
+    otp: { type: 'string', nullable: false, minLength: 6 },
   },
-  required: ['token'],
+  required: ['otp'],
 };
 
 export const recoverySchema = {

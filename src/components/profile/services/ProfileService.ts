@@ -4,7 +4,7 @@ import { Transaction } from 'objection';
 import { Components, EventsByComponent, Topics } from '../../../configs';
 import { InternalServerException } from '../../../exceptions';
 import { Profile } from '../interfaces/Profile';
-import * as CachedRepository from '../repositories/CachedProfileRepository';
+// import * as CachedRepository from '../repositories/CachedProfileRepository';
 import * as Repository from '../repositories/ProfileRepository';
 
 const topic = Topics[Components.PROFILE];
@@ -22,7 +22,7 @@ function mapProfile({ account, name, lastname, avatarUrl }: Partial<Profile>): P
 }
 
 export async function findOne(profile: Partial<Profile>) {
-  return CachedRepository.findOne(profile);
+  return Repository.findOne(profile);
 }
 
 export async function create(profile: Partial<Profile>, tx?: Transaction): Promise<Profile> {
@@ -35,3 +35,7 @@ export async function create(profile: Partial<Profile>, tx?: Transaction): Promi
 export async function findProfileRoles(filter: Partial<Profile>): Promise<Profile | undefined> {
   return Repository.findEager(filter, '[roles.[organization]]');
 }
+
+// export async function findOne(filter: Partial<Profile>) {
+//   return Repository.findOne(filter);
+// }

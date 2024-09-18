@@ -19,7 +19,7 @@ export class AccountRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/verify`, validateQuery(Validator.emailVerification), asyncHandler(Controller.verify));
+    this.router.post(`${this.path}/verify`, validateIncomingData(Validator.emailVerification), asyncHandler(Controller.verify));
     this.router.post(`${this.path}/recovery`, validateIncomingData(Validator.recovery), asyncHandler(Controller.recovery));
     this.router.post(
       `${this.path}/change-password`,

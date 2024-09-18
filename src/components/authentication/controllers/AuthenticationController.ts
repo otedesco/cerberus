@@ -8,9 +8,9 @@ import * as AuthenticationService from '../services/AuthenticationService';
 
 export async function signUp(req: Request, res: Response): Promise<void> {
   const accountData: SignUp = req.body;
-  const { status } = await createResponse(AuthenticationService.signUp(_.omit(accountData, 'passwordConfirmation')));
+  const { status, data } = await createResponse(AuthenticationService.signUp(_.omit(accountData, 'passwordConfirmation')));
 
-  res.status(status).send();
+  res.status(status).send(data);
 }
 
 export async function signIn(req: Request, res: Response): Promise<void> {

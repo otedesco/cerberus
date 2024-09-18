@@ -5,6 +5,19 @@ import { Account } from '../../account';
 import { Profile } from '../interfaces';
 import { Profiles } from '../models';
 
+const eagerRelations = '[roles.[organization]]';
+const fieldsToOmit = ['profileId', 'organizationId'];
+
+async function sanitize(query: QueryBuilder<Profiles>) {
+  const results = await query;
+
+  return Array.isArray(results) ? _.map(results, (result) => _.omit(result, fieldsToOmit)) : _.omit(results, fieldsToOmit);
+}
+
+function resolveRelations(query: QueryBuilder<Profiles>) {
+  return query.withGraphJoined(eagerRelations);
+}
+
 const filterQuery = (query: QueryBuilder<Profiles, Profiles[]>, filter: Partial<Profile>) => {
   const { id, account } = filter;
 
@@ -14,8 +27,14 @@ const filterQuery = (query: QueryBuilder<Profiles, Profiles[]>, filter: Partial<
   return query;
 };
 
+function buildFindQuery(filter: Partial<Profiles>, tx?: Transaction) {
+  const query = filterQuery(Profiles.query(tx), filter).orderBy('createdAt');
+
+  return resolveRelations(query);
+}
+
 export async function findOne(filter: Partial<Profile>) {
-  return filterQuery(Profiles.query(), filter).withGraphJoined('roles').first();
+  return filterQuery(Profiles.query(), filter).withGraphJoined(eagerRelations).first();
 }
 
 export async function create(profile: Partial<Profile>, tx?: Transaction) {
@@ -28,4 +47,8 @@ export async function update({ id, ...updatedKeys }: Partial<Profile>, tx?: Tran
 
 export async function findEager(filter: Partial<Profile>, relations: string | string[]) {
   return filterQuery(Profiles.query(), filter).withGraphJoined(relations).first();
+}
+
+export async function find(filter: Partial<Profile>, limit = 50, offset = 0, tx?: Transaction) {
+  return sanitize(buildFindQuery(filter, tx).limit(limit).offset(offset));
 }
