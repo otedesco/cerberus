@@ -82,9 +82,10 @@ export async function verifyAccount({ email, password, signed_session }: Partial
   if (!!password) {
     const isValid = await compareWithHash(password, account.password);
     if (!isValid) throw new UnauthorizedException();
-    const session = (await SessionService.create({ accountId: account.id, lastActivityLog: 'account sign in' })) as Session;
+    const session = await SessionService.create({ accountId: account.id, lastActivityLog: 'account sign in' });
 
-    return { ...sanitize(account), signed_session: session.id };
+    // FIXME: fix this illegal casting
+    return { ...sanitize(account), signed_session: (session as Session).id };
   }
 
   return sanitize(account);

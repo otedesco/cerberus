@@ -48,7 +48,7 @@ export async function deserializeAccount(req: Request, res: Response, next: Next
   if (!data) return next(new UnauthorizedException());
 
   const account = await AccountService.verifyAccount(data);
-  const profile = await ProfileService.findProfileRoles({ account: account.id });
+  const profile = await ProfileService.findOne({ account: account.id });
   const roles = profile?.roles ? _.keyBy(profile.roles as Role[], 'organizationId') : {};
 
   logger.info(`Account deserialization success: ${JSON.stringify(data)} `);
