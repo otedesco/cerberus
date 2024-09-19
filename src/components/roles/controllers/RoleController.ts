@@ -8,5 +8,5 @@ export async function find(_req: Request, res: Response): Promise<void> {
   const profile: Profile = res.locals.profile;
   const { status, data } = await resolveResponse(RoleService.find({ profileId: profile.id }));
 
-  res.status(status).json(data);
+  res.status(status).json({ data });
 }

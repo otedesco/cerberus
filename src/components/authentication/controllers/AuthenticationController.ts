@@ -10,7 +10,7 @@ export async function signUp(req: Request, res: Response): Promise<void> {
   const accountData: SignUp = req.body;
   const { status, data } = await createResponse(AuthenticationService.signUp(_.omit(accountData, 'passwordConfirmation')));
 
-  res.status(status).send(data);
+  res.status(status).send({ data });
 }
 
 export async function signIn(req: Request, res: Response): Promise<void> {
@@ -24,7 +24,7 @@ export async function signIn(req: Request, res: Response): Promise<void> {
     httpOnly: false,
   } as CookieOptions);
 
-  res.status(status).json(data);
+  res.status(status).json({ data });
 }
 
 export async function signOut(_req: Request, res: Response): Promise<void> {
@@ -47,5 +47,5 @@ export async function refreshAuthorization({ cookies }: Request, res: Response):
     httpOnly: false,
   } as CookieOptions);
 
-  res.status(status).json(data);
+  res.status(status).json({ data });
 }
