@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.15
+
+### Patch Changes
+
+- [#30](https://github.com/otedesco/cerberus/pull/30) [`a5a3e2f`](https://github.com/otedesco/cerberus/commit/a5a3e2fd90befe611ef1c304e37755bf698fe32a) Thanks [@otedesco](https://github.com/otedesco)! - change response schema
+
 ## 0.0.14
 
 ### Patch Changes
