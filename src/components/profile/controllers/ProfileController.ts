@@ -7,5 +7,5 @@ export async function findMe(_req: Request, res: Response): Promise<void> {
   const { account } = res.locals;
   const { status, data } = await resolveResponse(ProfileService.findOne({ account: account.id }));
 
-  res.status(status).json(data);
+  res.status(status).json({ data });
 }

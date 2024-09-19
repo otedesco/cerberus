@@ -5,28 +5,28 @@ import { KnexMigrationService } from '../services';
 
 export async function unlock(req: Request, res: Response): Promise<void> {
   const { requester = {} } = res.locals;
-  const resp = await resolveResponse(KnexMigrationService.unlock(requester));
+  const { status, data } = await resolveResponse(KnexMigrationService.unlock(requester));
 
-  res.status(resp.status).json(resp.data);
+  res.status(status).json({ data });
 }
 
 export async function list(req: Request, res: Response): Promise<void> {
   const { requester = {} } = res.locals;
-  const resp = await resolveResponse(KnexMigrationService.listMigrations(requester));
+  const { status, data } = await resolveResponse(KnexMigrationService.listMigrations(requester));
 
-  res.status(resp.status).json(resp.data);
+  res.status(status).json({ data });
 }
 
 export async function down({ body }: Request, res: Response): Promise<void> {
   const { requester = {} } = res.locals;
-  const resp = await resolveResponse(KnexMigrationService.down(body, requester));
+  const { status, data } = await resolveResponse(KnexMigrationService.down(body, requester));
 
-  res.status(resp.status).json(resp.data);
+  res.status(status).json({ data });
 }
 
 export async function up({ body }: Request, res: Response): Promise<void> {
   const { requester = {} } = res.locals;
-  const resp = await resolveResponse(KnexMigrationService.up(body, requester));
+  const { status, data } = await resolveResponse(KnexMigrationService.up(body, requester));
 
-  res.status(resp.status).json(resp.data);
+  res.status(status).json({ data });
 }

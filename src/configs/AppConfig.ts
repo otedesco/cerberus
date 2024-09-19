@@ -14,6 +14,7 @@ export const CREDENTIALS = environment.CREDENTIALS === 'true' || false;
 
 export const SECRET_KEY = environment.PRIVATE_KEY || 'super-secret-key';
 export const PUBLIC_KEY = environment.PUBLIC_KEY || 'not-so-secret-key';
+export const TESTING_OTP = environment.TESTING_OTP || '123456';
 export const REFRESH_SECRET_KEY = environment.REFRESH_SECRET_KEY || 'super-secret-key';
 export const REFRESH_PUBLIC_KEY = environment.REFRESH_PUBLIC_KEY || 'not-so-secret-key';
 export const ADMIN_API_KEY = environment.ADMIN_API_KEY || 'admin';

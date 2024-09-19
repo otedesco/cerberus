@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Transaction } from 'objection';
 
 import { SessionService } from '..';
-import { PUBLIC_KEY, SALT_ROUNDS, SECRET_KEY, VERIFICATION_TOKEN_EXPIRE, Topics, Components, EventsByComponent } from '../../../configs';
+import { PUBLIC_KEY, SALT_ROUNDS, SECRET_KEY, VERIFICATION_TOKEN_EXPIRE, Topics, Components, EventsByComponent, TESTING_OTP } from '../../../configs';
 import { AccountStatus } from '../../../enums';
 import { ForbiddenException } from '../../../exceptions';
 import { UnauthorizedException } from '../../../exceptions';
@@ -92,11 +92,13 @@ export async function verifyAccount({ email, password, signed_session }: Partial
 }
 
 export async function verifyEmail({ token, otp }: { token?: string; otp: string }): Promise<void> {
-  if (!token) throw new ForbiddenException();
+  if (!token) throw new UnauthorizedException();
 
   const payload = verify<Partial<{ email: string; otp: string }>>(token, PUBLIC_KEY);
-  if (!payload) throw new ForbiddenException();
-  if (payload.otp !== otp) throw new ForbiddenException();
+  if (!payload) throw new UnauthorizedException();
+
+  // FIXME: remove this after testing
+  if (![payload.otp, TESTING_OTP].includes(otp)) throw new UnauthorizedException();
 
   const account = await CachedRepository.update({ email: payload.email, status: AccountStatus.VERIFIED });
   if (account) {
