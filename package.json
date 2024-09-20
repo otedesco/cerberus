@@ -21,7 +21,7 @@
   "scripts": {
     "start": "pnpm run build && cross-env NODE_ENV=production node dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "build": "swc src -d dist --source-maps --copy-files",
+    "build": "rm -rf dist && swc src -d dist --source-maps --copy-files",
     "type:check": "tsc --noEmit",
     "format": "prettier \"src/**/*.ts\" --write",
     "format:check": "prettier \"src/**/*.ts\" --check",
@@ -35,7 +35,8 @@
     "make:seeder": "knex seed:make --knexfile=knexfile.ts -x ts --env development",
     "make:migration": "knex migrate:make --knexfile=knexfile.ts -x ts --env development",
     "commit": "pnpm changeset",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "deploy-vercel": "pnpm build && vercel --prod"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",

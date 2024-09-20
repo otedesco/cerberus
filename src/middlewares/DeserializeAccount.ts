@@ -11,11 +11,10 @@ import { UnauthorizedException } from '../exceptions/UnauthorizedException';
 
 const { logger } = LoggerFactory.getInstance(__filename);
 
-function getAccessToken({ headers, cookies }: Request): string | null {
-  const authorizationHeader = _.get(headers, 'Authorization', null) as string;
+function getAccessToken(req: Request): string | null {
+  const authorizationHeader = req.get('authorization');
   if (authorizationHeader && authorizationHeader.startsWith('Bearer')) return authorizationHeader.split(' ')[1];
-
-  const authorizationCookie = _.get(cookies, 'access_token', null);
+  const authorizationCookie = _.get(req.cookies, 'access_token', null);
   if (authorizationCookie) return authorizationCookie;
 
   return null;
@@ -34,7 +33,7 @@ export async function deserializeAccount(req: Request, res: Response, next: Next
   //        if you feel lucky when this bug finds you try to fix it.
   //        Love you,
   //        Os
-  // if (res.locals.account) return next();
+  if (res.locals.account) return next();
 
   logger.info(`Account deserialization attempt ${new Date()} `);
   const accessToken = getAccessToken(req);
