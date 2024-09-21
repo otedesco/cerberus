@@ -51,9 +51,9 @@ async function mapAccountData(account: Partial<Account>): Promise<Partial<Accoun
 export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: boolean = true) {
   if (!filters) return null;
   const account = await CachedRepository.findOne(filters);
-  if (account && filters.signed_session) {
+  if (account && filters.signedSession) {
     // session last acctivity implementation  if signed account exist
-    SessionService.update({ id: filters.signed_session, accountId: account.id, lastActivityLog: 'reading account' });
+    SessionService.update({ id: filters.signedSession, accountId: account.id, lastActivityLog: 'reading account' });
     // filters = _.omit(filters, 'signed_session');
   }
 
@@ -75,8 +75,8 @@ export async function create(payload: Partial<Account>, tx?: Transaction): Promi
   return { ...account, token: signedAccount.token };
 }
 
-export async function verifyAccount({ email, password, signed_session }: Partial<Account & SecuredAccount>): Promise<SecuredAccount> {
-  const account = (await findOne({ email, signed_session }, false)) as Account;
+export async function verifyAccount({ email, password, signedSession }: Partial<Account & SecuredAccount>): Promise<SecuredAccount> {
+  const account = (await findOne({ email, signedSession }, false)) as Account;
   if (!account) throw new UnauthorizedException();
 
   if (!!password) {
@@ -85,7 +85,7 @@ export async function verifyAccount({ email, password, signed_session }: Partial
     const session = await SessionService.create({ accountId: account.id, lastActivityLog: 'account sign in' });
 
     // FIXME: fix this illegal casting
-    return { ...sanitize(account), signed_session: (session as Session).id };
+    return { ...sanitize(account), signedSession: (session as Session).id };
   }
 
   return sanitize(account);

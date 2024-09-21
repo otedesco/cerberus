@@ -5,11 +5,11 @@ import { Transaction } from 'objection';
 import { REFRESH_PUBLIC_KEY, REFRESH_SECRET_KEY, SECRET_KEY, SESSION_EXPIRE, TOKEN_EXPIRE } from '../../../configs';
 import { UnauthorizedException } from '../../../exceptions';
 import { Transaction as Transactional } from '../../../utils';
-import { Account, SecuredAccount, AccountService } from '../../account';
+import { Account, SecuredAccount, AccountService, SignedSession } from '../../account';
 import { ProfileService } from '../../profile';
 import { SignIn } from '../interfaces';
 
-const tokenSub: (keyof SecuredAccount)[] = ['email', 'signed_session'];
+const tokenSub: (keyof SecuredAccount)[] = ['email', 'signedSession'];
 
 function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, returning = false) {
   const accountToCreate = _.omit(payload, ['passwordConfirmation', 'name', 'lastname']);
@@ -23,23 +23,22 @@ function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, retur
   };
 }
 
-async function signSession(handler: Promise<SecuredAccount | null>) {
+async function signSession(handler: Promise<SecuredAccount | null>): Promise<SignedSession> {
   const account = await handler;
   if (!account) throw new UnauthorizedException();
 
   const payload = _.pick(account, tokenSub);
 
   return {
-    access_token: sign(payload, SECRET_KEY, { expiresIn: `${TOKEN_EXPIRE}s` }),
-    refresh_token: sign(payload, REFRESH_SECRET_KEY, {
+    accessToken: sign(payload, SECRET_KEY, { expiresIn: `${TOKEN_EXPIRE}s` }),
+    refreshToken: sign(payload, REFRESH_SECRET_KEY, {
       expiresIn: `${SESSION_EXPIRE}s`,
     }),
-    account,
   };
 }
 
-export async function signUp(payload: Pick<Account, 'email' | 'password'>): Promise<Account> {
-  return Transactional.run(transactionalCreate(payload, true));
+export async function signUp(payload: Pick<Account, 'email' | 'password'>) {
+  return Transactional.run(transactionalCreate(payload, false));
 }
 
 export function signIn(payload: SignIn) {

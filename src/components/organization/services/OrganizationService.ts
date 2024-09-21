@@ -17,7 +17,7 @@ import * as InvitationService from './InvitationService';
 const topic = Topics[Components.ORGANIZATION];
 const events = EventsByComponent[Components.ORGANIZATION];
 
-export async function create(account: Account, payload: Partial<Organization>): Promise<Organization> {
+export async function create(account: Account, payload: Partial<Organization>): Promise<void> {
   const profile = await ProfileService.findOne({ account: account.id });
   if (!profile) throw new InternalServerException();
 
@@ -25,19 +25,15 @@ export async function create(account: Account, payload: Partial<Organization>): 
     const organization = await Repository.create(payload, tx);
     const role = await RoleService.create({ profileId: profile.id, organizationId: organization.id, role: RoleType.OWNER }, tx);
     notify(topic, events.CreatedEvent, { organization, account, profile, role });
-
-    return organization;
   });
 }
 
 export async function inviteCollaborator(payload: InviteCollaborator[], { organization }: Role) {
   if (!organization) throw new ForbiddenException();
 
-  const invitations = Promise.map(payload, (invitation: Invitation) => InvitationService.create(invitation, organization as Organization), {
+  return Promise.map(payload, (invitation: Invitation) => InvitationService.create(invitation, organization as Organization), {
     concurrency: payload.length,
   });
-
-  return invitations;
 }
 
 export async function findOne(filter: Partial<Organization>) {
