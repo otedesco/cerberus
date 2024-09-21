@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.16
+
+### Patch Changes
+
+- [#32](https://github.com/otedesco/cerberus/pull/32) [`18b00a7`](https://github.com/otedesco/cerberus/commit/18b00a76f83232c4e98d209cdf8c9d2c27d6ffaa) Thanks [@otedesco](https://github.com/otedesco)! - minor fixes
+
 ## 0.0.15
 
 ### Patch Changes
