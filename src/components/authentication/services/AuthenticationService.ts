@@ -38,7 +38,7 @@ async function signSession(handler: Promise<SecuredAccount | null>): Promise<Sig
 }
 
 export async function signUp(payload: Pick<Account, 'email' | 'password'>) {
-  return Transactional.run(transactionalCreate(payload, false));
+  return Transactional.run(transactionalCreate(payload, true));
 }
 
 export function signIn(payload: SignIn) {
