@@ -30,8 +30,6 @@ export async function create({ email, role }: InviteCollaborator, organization: 
   } else {
     AccountService.createInvitation({ email });
   }
-
-  return invitation;
 }
 
 export async function accept(profile: Profile, organizationId: Organization['id'], invitationId: Invitation['id']) {

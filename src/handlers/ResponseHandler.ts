@@ -20,7 +20,7 @@ export type Options = {
   code?: number;
 };
 
-export const resolveResponse = async (value: Promise<any>, options: Options = {}) => {
+export const resolveResponse = async <T>(value: Promise<T>, options: Options = {}) => {
   const { notFoundHandler = notFound, defaultResponse = {} } = options;
   const records = await value;
   if (_.isEmpty(records)) {
