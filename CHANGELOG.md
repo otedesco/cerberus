@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.18
+
+### Patch Changes
+
+- [#37](https://github.com/otedesco/cerberus/pull/37) [`b7a91f2`](https://github.com/otedesco/cerberus/commit/b7a91f237979d4fc7e0f2fda1de220619cbc393a) Thanks [@otedesco](https://github.com/otedesco)! - implement notify sync function
+
 ## 0.0.17
 
 ### Patch Changes
