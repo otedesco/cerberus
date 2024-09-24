@@ -1,4 +1,4 @@
-import { notify } from '@otedesco/notify';
+import { notifySync } from '@otedesco/notify';
 import { Transaction } from 'objection';
 
 import { Components, EventsByComponent, Topics } from '../../../configs';
@@ -10,7 +10,8 @@ const events = EventsByComponent[Components.ROLE];
 
 export async function create(role: Partial<Role>, tx?: Transaction) {
   const record = await Repository.create(role, tx);
-  notify(topic, events.CreatedEvent, role);
+  // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+  notifySync(topic, events.CreatedEvent, role);
 
   return record;
 }

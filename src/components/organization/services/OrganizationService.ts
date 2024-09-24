@@ -1,4 +1,4 @@
-import { notify } from '@otedesco/notify';
+import { notifySync } from '@otedesco/notify';
 import { Promise } from 'bluebird';
 import { Transaction } from 'objection';
 
@@ -24,7 +24,8 @@ export async function create(account: Account, payload: Partial<Organization>): 
   return Transactional.run(async (tx: Transaction) => {
     const organization = await Repository.create(payload, tx);
     const role = await RoleService.create({ profileId: profile.id, organizationId: organization.id, role: RoleType.OWNER }, tx);
-    notify(topic, events.CreatedEvent, { organization, account, profile, role });
+    // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+    notifySync(topic, events.CreatedEvent, { organization, account, profile, role });
   });
 }
 
