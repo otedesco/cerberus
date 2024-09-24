@@ -1,5 +1,5 @@
 import { compareWithHash, generateHash, sign, verify } from '@otedesco/commons';
-import { notify } from '@otedesco/notify';
+import { notifySync } from '@otedesco/notify';
 import _ from 'lodash';
 import { Transaction } from 'objection';
 
@@ -70,7 +70,8 @@ export async function create(payload: Partial<Account>, tx?: Transaction): Promi
   const account = sanitize(await CachedRepository.create(accountData, tx));
 
   const signedAccount = signVerificationToken(account);
-  notify(topic, events.CreatedEvent, signedAccount);
+  // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+  notifySync(topic, events.CreatedEvent, signedAccount);
 
   return { ...account, token: signedAccount.token };
 }
@@ -102,7 +103,8 @@ export async function verifyEmail({ token, otp }: { token?: string; otp: string 
 
   const account = await CachedRepository.update({ email: payload.email, status: AccountStatus.VERIFIED });
   if (account) {
-    notify(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['status'] });
+    // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+    notifySync(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['status'] });
   }
 
   return;
@@ -111,8 +113,8 @@ export async function verifyEmail({ token, otp }: { token?: string; otp: string 
 export async function recovery({ email }: Partial<Account>) {
   const account = await findOne({ email });
   if (!account?.id) return;
-
-  await notify(topic, events.RecoveryEvent, signVerificationToken(account));
+  // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+  await notifySync(topic, events.RecoveryEvent, signVerificationToken(account));
 
   return;
 }
@@ -124,12 +126,14 @@ export async function changePassword({ password }: Partial<Account>, token: stri
   const [hash, salt] = await generateHash(password!, SALT_ROUNDS);
   const account = await CachedRepository.update({ email: payload.email, password: hash, salt });
   if (account) {
-    notify(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['password'] });
+    // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+    notifySync(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['password'] });
   }
 
   return;
 }
 
 export async function createInvitation({ email }: { email: string }): Promise<void> {
-  return notify(topic, events.InviteEvent, { email });
+  // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+  notifySync(topic, events.InviteEvent, { email });
 }

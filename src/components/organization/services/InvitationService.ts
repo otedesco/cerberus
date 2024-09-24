@@ -1,5 +1,5 @@
 import { sign } from '@otedesco/commons';
-import { notify } from '@otedesco/notify';
+import { notifySync } from '@otedesco/notify';
 import _ from 'lodash';
 
 import { Components, EventsByComponent, SECRET_KEY, Topics, VERIFICATION_TOKEN_EXPIRE } from '../../../configs';
@@ -26,7 +26,8 @@ export async function create({ email, role }: InviteCollaborator, organization: 
   const invitation = await InvitationRepository.create({ email, organization: organization.id, role });
 
   if (account) {
-    notify(topic, events.InviteEvent, singInvitationToken(invitation, organization));
+    // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+    notifySync(topic, events.InviteEvent, singInvitationToken(invitation, organization));
   } else {
     AccountService.createInvitation({ email });
   }
