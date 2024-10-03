@@ -6,7 +6,7 @@ import { Components, EventsByComponent, SECRET_KEY, Topics, VERIFICATION_TOKEN_E
 import { ForbiddenException } from '../../../exceptions';
 import { AccountService } from '../../account';
 import { Profile } from '../../profile';
-import { findOne as findRole, create as createRole } from '../../roles/services';
+import { RoleService } from '../../roles/services';
 import { Invitation, InviteCollaborator, Organization } from '../interfaces';
 import { InvitationRepository } from '../repositories';
 import { OrganizationService } from '../services';
@@ -33,7 +33,7 @@ export async function create({ email, role }: InviteCollaborator, organization: 
 }
 
 export async function accept(profile: Profile, organizationId: Organization['id'], invitationId: Invitation['id']) {
-  const existingRole = await findRole({ profileId: profile.id });
+  const existingRole = await RoleService.findOne({ profileId: profile.id });
   if (existingRole) throw new ForbiddenException();
 
   const [invitation, organization] = await Promise.all([
@@ -45,5 +45,5 @@ export async function accept(profile: Profile, organizationId: Organization['id'
   // TODO: update invitation status to accepted or declined
   // inside of a transaction
 
-  return createRole({ profileId: profile.id, organizationId, role: invitation.role });
+  return RoleService.create({ profileId: profile.id, organizationId, role: invitation.role });
 }
