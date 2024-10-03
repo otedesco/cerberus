@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.19
+
+### Patch Changes
+
+- [#39](https://github.com/otedesco/cerberus/pull/39) [`8de2bbc`](https://github.com/otedesco/cerberus/commit/8de2bbceb10782a8b36b248de8ab43bf70c1bcb8) Thanks [@otedesco](https://github.com/otedesco)! - implement account and profile details update and some minimal refactor
+
 ## 0.0.18
 
 ### Patch Changes
