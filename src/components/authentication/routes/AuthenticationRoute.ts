@@ -3,10 +3,10 @@ import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
 import { validateIncomingData } from '../../../middlewares';
-import * as Controller from '../controllers/AuthenticationController';
-import * as Validator from '../validators/AuthenticationValidator';
+import { AuthenticationController as Controller } from '../controllers';
+import { AuthenticationValidator as Validator } from '../validators';
 
-export class AuthenticationRoute implements Route {
+class AuthenticationRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -24,3 +24,5 @@ export class AuthenticationRoute implements Route {
     this.router.post(`${this.path}/refresh-token`, asyncHandler(Controller.refreshAuthorization));
   }
 }
+
+export default new AuthenticationRoute();

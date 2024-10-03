@@ -22,6 +22,9 @@ export const SESSION_TABLE = 'sessions';
 export const ACCOUNT_STATUS_TYPE_TABLE = 'account_status_types';
 export const ROLE_TYPE_TABLE = 'role_types';
 export const INVITATION_TABLE = 'invitations';
+export const ACCOUNT_DETAILS_TABLE = 'account_details';
+export const ACCOUNT_EMERGENCY_CONTACT_TABLE = 'account_emergency_contact';
+export const PROFILE_DETAILS_TABLE = 'profile_details';
 
 // DB UTILITIES CONFIGS
 export const CURSOR_BATCH_SIZE = 500;

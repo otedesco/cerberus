@@ -3,7 +3,7 @@ import { LoggerFactory } from '@otedesco/server-utils';
 import { NextFunction, Request, Response } from 'express';
 import _ from 'lodash';
 
-import { AccountService } from '../components/account/services';
+import { AccountService } from '../components/account';
 import { ProfileService } from '../components/profile';
 import { Role } from '../components/roles';
 import { PUBLIC_KEY, REFRESH_PUBLIC_KEY } from '../configs/AppConfig';
@@ -47,7 +47,7 @@ export async function deserializeAccount(req: Request, res: Response, next: Next
   if (!data) return next(new UnauthorizedException());
 
   const account = await AccountService.verifyAccount(data);
-  const profile = await ProfileService.findOne({ account: account.id });
+  const profile = await ProfileService.findOne({ accountId: account.id });
   const roles = profile?.roles ? _.keyBy(profile.roles as Role[], 'organizationId') : {};
 
   logger.info(`Account deserialization success: ${JSON.stringify(data)} `);

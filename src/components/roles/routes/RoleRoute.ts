@@ -25,3 +25,5 @@ export class RoleRoute implements Route {
     this.router.get(this.path, asyncHandler(Controller.find));
   }
 }
+
+export default new RoleRoute();

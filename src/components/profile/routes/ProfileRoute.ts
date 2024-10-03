@@ -2,10 +2,11 @@ import { Route } from '@otedesco/server-utils';
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
-import { PrivateRoute, deserializeAccount } from '../../../middlewares';
-import { ProfileController as Controllers } from '../controllers';
+import { PrivateRoute, deserializeAccount, validateIncomingData } from '../../../middlewares';
+import { ProfileController, ProfileDetailsController } from '../controllers';
+import { ProfileDetailsValidator, ProfileValidator } from '../validators';
 
-export class ProfileRoute implements Route {
+class ProfileRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -22,6 +23,14 @@ export class ProfileRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/me`, asyncHandler(Controllers.findMe));
+    console.log('initializeRoutes');
+    // Profile
+    this.router.get(`${this.path}/me`, asyncHandler(ProfileController.findMe));
+    this.router.patch(`${this.path}/me`, validateIncomingData(ProfileValidator.update), asyncHandler(ProfileController.update));
+
+    // Profile Details
+    this.router.patch(`${this.path}/details`, validateIncomingData(ProfileDetailsValidator.createOrUpdate), asyncHandler(ProfileDetailsController.upsert));
   }
 }
+
+export default new ProfileRoute();

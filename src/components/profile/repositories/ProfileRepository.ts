@@ -5,7 +5,7 @@ import { Account } from '../../account';
 import { Profile } from '../interfaces';
 import { Profiles } from '../models';
 
-const eagerRelations = '[roles.[organization]]';
+const eagerRelations = '[roles.[organization], details]';
 const fieldsToOmit = ['profileId', 'organizationId'];
 
 async function sanitize(query: QueryBuilder<Profiles>) {

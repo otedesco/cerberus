@@ -1,1 +1,1 @@
-export { KnexMigrationRoute } from './KnexMigrationRoute';
+export { default as KnexMigrationRoute } from './KnexMigrationRoute';

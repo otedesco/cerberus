@@ -9,8 +9,7 @@ import { Profile } from '../../profile';
 import { findOne as findRole, create as createRole } from '../../roles/services';
 import { Invitation, InviteCollaborator, Organization } from '../interfaces';
 import { InvitationRepository } from '../repositories';
-
-import * as OrganizationService from './OrganizationService';
+import { OrganizationService } from '../services';
 
 const topic = Topics[Components.ORGANIZATION];
 const events = EventsByComponent[Components.ORGANIZATION];
@@ -22,7 +21,7 @@ const singInvitationToken = (invitation: Invitation, organization: Organization)
 };
 
 export async function create({ email, role }: InviteCollaborator, organization: Organization) {
-  const account = await AccountService.findOne({ email });
+  const account = await AccountService.findOne({ email }, true);
   const invitation = await InvitationRepository.create({ email, organization: organization.id, role });
 
   if (account) {

@@ -1,7 +1,7 @@
 import { QueryBuilder, Transaction } from 'objection';
 
 import { Organization } from '../interfaces/Organization';
-import { Organizations } from '../models/OrganizationModel';
+import { Organizations } from '../models';
 
 const filterQuery = (query: QueryBuilder<Organizations, Organizations[]>, filter: Partial<Organization>) => {
   const { id } = filter;

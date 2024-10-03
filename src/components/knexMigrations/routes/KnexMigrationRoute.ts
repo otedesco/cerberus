@@ -8,7 +8,7 @@ import { KnexMigrationController } from '../controllers';
 
 const KNEX_MIGRATIONS_ADMIN_LOCK = '/knex-migrations';
 
-export class KnexMigrationRoute implements Route {
+class KnexMigrationRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -32,3 +32,5 @@ export class KnexMigrationRoute implements Route {
     this.router.post(`${this.path}/up`, requesterInformation, asyncHandler(KnexMigrationController.up));
   }
 }
+
+export default new KnexMigrationRoute();

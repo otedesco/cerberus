@@ -7,7 +7,7 @@ import { PrivateRoute, deserializeAccount, validateIncomingData, verifyRole } fr
 import { OrganizationController as Controllers } from '../controllers';
 import { createOrganizationSchema, inviteCollaboratorSchema } from '../validators/OrganizationValidator';
 
-export class OrganizationRoute implements Route {
+class OrganizationRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -34,3 +34,5 @@ export class OrganizationRoute implements Route {
     this.router.post(`${this.path}/:organizationId/accept-invitation/:invitationId`, asyncHandler(Controllers.acceptCollaborator));
   }
 }
+
+export default new OrganizationRoute();

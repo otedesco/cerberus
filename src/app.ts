@@ -9,9 +9,9 @@ import { handleError, logError } from './middlewares';
 
 const { logger } = LoggerFactory.getInstance(__filename);
 
-const publicRoutes = [new AuthenticationRoute(), new AccountRoute()];
-const privateRoutes = [new PrivateAuthenticationRoute(), new OrganizationRoute(), new RoleRoute(), new ProfileRoute()];
-const adminRoutes = [new KnexMigrationRoute()];
+const publicRoutes = [AuthenticationRoute, AccountRoute];
+const privateRoutes = [PrivateAuthenticationRoute, OrganizationRoute, RoleRoute, ProfileRoute];
+const adminRoutes = [KnexMigrationRoute];
 
 const serverConfig: ConfigOptions = {
   routes: [

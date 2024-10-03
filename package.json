@@ -69,7 +69,7 @@
   "dependencies": {
     "@otedesco/cache": "^0.0.7",
     "@otedesco/commons": "^0.0.5",
-    "@otedesco/notify": "^0.0.4",
+    "@otedesco/notify": "^0.0.5",
     "@otedesco/server-utils": "^0.0.3",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",

@@ -22,9 +22,9 @@ services:
   #     - postgres
   #     - kafka
   # hermes:
-  # ports:
-  #   - '3001:3000'
-  # restart: 'unless-stopped'
+  #   ports:
+  #     - '3001:3000'
+  #   restart: 'unless-stopped'
   # env_file:
   #   - ./hermes/.env.production.local
   # build:
@@ -37,11 +37,11 @@ services:
   #   - /app/node_modules
   # depends_on:
   #   - cerberus
-  redis:
-    image: redis/redis-stack:latest
-    ports:
-      - 6379:6379
-      - 8001:8001
+  # redis:
+  #   image: redis/redis-stack:latest
+  #   ports:
+  #     - 6379:6379
+  #     - 8001:8001
   postgres:
     image: postgres:9.6
     environment:

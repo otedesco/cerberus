@@ -5,7 +5,7 @@ import asyncHandler from 'express-async-handler';
 import { deserializeAccount, PrivateRoute } from '../../../middlewares';
 import * as Controller from '../controllers/AuthenticationController';
 
-export class PrivateAuthenticationRoute implements Route {
+class PrivateAuthenticationRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -25,3 +25,5 @@ export class PrivateAuthenticationRoute implements Route {
     this.router.post(`${this.path}/sign-out`, asyncHandler(Controller.signOut));
   }
 }
+
+export default new PrivateAuthenticationRoute();

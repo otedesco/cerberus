@@ -5,7 +5,7 @@ import { SESSION_EXPIRE, ACCOUNT_CACHE_ENABLED } from '../../../configs';
 import { Account } from '../interfaces';
 import { Accounts } from '../models';
 
-import * as AccountRepository from './AccountRepository';
+import { AccountRepository } from './';
 
 const idColumns = ['email'];
 
@@ -18,7 +18,7 @@ export async function create(argsObject: Partial<Account>, tx?: Transaction) {
 }
 
 export async function update(argsObject: Partial<Account>, tx?: Transaction) {
-  const resolver = (args: Partial<Account>) => AccountRepository.update({ email: args.email!, data: { ...args } }, tx);
+  const resolver = (args: Partial<Account>) => AccountRepository.update(args, tx);
 
   return Cache.invalidateCache(idColumns, Accounts.tableName, ACCOUNT_CACHE_ENABLED, resolver, argsObject);
 }

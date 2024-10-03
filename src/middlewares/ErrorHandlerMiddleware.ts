@@ -19,7 +19,7 @@ export function handleError(err: Error, _req: Request, res: Response, _next: Nex
 
   const error = _.isEmpty(databaseError) ? err : databaseError;
   const { status, validationErrors = [], message, code } = error as CustomError;
-  const data = !_.isEmpty(validationErrors) ? [...validationErrors] : { message, code };
+  const data = !_.isEmpty(validationErrors) ? { message, code, data: [...validationErrors] } : { message, code };
 
-  res.status(status || 500).json({ data });
+  res.status(status || 500).json(data);
 }

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { ACCESS_TOKEN_COOKIE_OPTIONS, REFRESH_TOKEN_COOKIE_OPTIONS } from '../../../configs';
 import { createResponse, resolveResponse } from '../../../handlers';
 import { SignIn, SignUp } from '../interfaces';
-import * as AuthenticationService from '../services/AuthenticationService';
+import { AuthenticationService } from '../services';
 
 export async function signUp(req: Request, res: Response): Promise<void> {
   const accountData: SignUp = req.body;

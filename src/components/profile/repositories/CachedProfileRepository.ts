@@ -4,10 +4,9 @@ import { Transaction } from 'objection';
 import { PROFILE_CACHE_ENABLED, TTL } from '../../../configs';
 import { Profile } from '../interfaces/Profile';
 import { Profiles } from '../models';
+import { ProfileRepository as Repository } from '../repositories';
 
-import * as Repository from './ProfileRepository';
-
-const idColumns = ['account'];
+const idColumns = ['accountId'];
 
 export async function findOne(argsObject: Partial<Profile>): Promise<Profile | undefined> {
   return Cache.cacheSimpleResponse(idColumns, Profiles.tableName, TTL, PROFILE_CACHE_ENABLED, Repository.findOne, argsObject);

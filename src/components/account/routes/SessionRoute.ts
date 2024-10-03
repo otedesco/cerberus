@@ -5,7 +5,7 @@ import asyncHandler from 'express-async-handler';
 import { PrivateRoute, deserializeAccount } from '../../../middlewares';
 import { SessionController as Controller } from '../controllers';
 
-export class SessionsRoute implements Route {
+class SessionsRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -25,3 +25,5 @@ export class SessionsRoute implements Route {
     this.router.get(this.path, asyncHandler(Controller.find));
   }
 }
+
+export default new SessionsRoute();

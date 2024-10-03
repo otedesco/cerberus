@@ -11,14 +11,13 @@ import { ProfileService } from '../../profile';
 import { Role, RoleService } from '../../roles';
 import { Organization, InviteCollaborator, Invitation } from '../interfaces';
 import { CachedOrganizationRepository as Repository } from '../repositories';
-
-import * as InvitationService from './InvitationService';
+import { InvitationService } from '../services';
 
 const topic = Topics[Components.ORGANIZATION];
 const events = EventsByComponent[Components.ORGANIZATION];
 
 export async function create(account: Account, payload: Partial<Organization>): Promise<void> {
-  const profile = await ProfileService.findOne({ account: account.id });
+  const profile = await ProfileService.findOne({ accountId: account.id });
   if (!profile) throw new InternalServerException();
 
   return Transactional.run(async (tx: Transaction) => {
