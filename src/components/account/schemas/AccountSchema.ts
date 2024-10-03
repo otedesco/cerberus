@@ -1,14 +1,9 @@
-import { AccountStatus } from '../../../enums';
-
 const properties = {
   id: { type: 'string', minLength: 1 },
   email: { type: 'string' },
+  phoneNMber: { type: 'string', nullable: true },
   password: { type: 'string' },
   salt: { type: 'string' },
-  status: {
-    type: 'string',
-    enum: Object.values(AccountStatus),
-  },
 };
 
 export const modelSchema = {
@@ -16,8 +11,6 @@ export const modelSchema = {
   additionalProperties: false,
   properties: {
     ...properties,
-    profiles: { type: 'array', items: { type: 'string' }, nullable: true },
-    sessions: { type: 'array', items: { type: 'string' }, nullable: true },
 
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },

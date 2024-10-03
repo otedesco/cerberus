@@ -3,7 +3,7 @@ import { Transaction } from 'objection';
 
 import { Components, EventsByComponent, Topics } from '../../../configs';
 import { Role } from '../interfaces/Role';
-import * as Repository from '../repositories/RolesRepository';
+import { RolesRepository as Repository } from '../repositories';
 
 const topic = Topics[Components.ROLE];
 const events = EventsByComponent[Components.ROLE];

@@ -1,1 +1,1 @@
-export { RoleRoute } from './RoleRoute';
+export { default as RoleRoute } from './RoleRoute';

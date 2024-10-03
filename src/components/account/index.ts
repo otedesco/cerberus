@@ -1,3 +1,3 @@
-export * as AccountService from './services/AccountService';
-export * as SessionService from './services/SessionService';
+export * from './services';
 export * from './interfaces';
+export * from './models';

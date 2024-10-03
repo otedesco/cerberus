@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import _ from 'lodash';
 
-import { Organization } from '../components/organization/interfaces/Organization';
-import { Role } from '../components/roles/interfaces/Role';
+import { Organization } from '../components/organization';
+import { Role } from '../components/roles';
 import { RoleType } from '../enums';
 import { ForbiddenException } from '../exceptions';
 

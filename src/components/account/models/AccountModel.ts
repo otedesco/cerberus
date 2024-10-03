@@ -1,13 +1,15 @@
 import { BaseModel, ModelObject } from '@otedesco/commons';
 
 import { ACCOUNT_TABLE } from '../../../configs';
-import { Profile } from '../../profile';
+import { Profile, Profiles } from '../../profile';
+import { AccountDetail } from '../interfaces';
 import { Account } from '../interfaces/Account';
-import { AccountStatusType } from '../interfaces/AccountStatusType';
+import { AccountEmergencyContact } from '../interfaces/AccountEmergencyContact'; // Import AccountEmergencyContact interface
 import { Session } from '../interfaces/Session';
 import { modelSchema } from '../schemas/AccountSchema';
 
-import { AccountStatusTypes } from './AccountStatusTypeModel';
+import { AccountDetails } from './AccountDetailsModel';
+import { AccountEmergencyContacts } from './AccountEmergencyContactModel';
 import { Sessions } from './SessionsModel';
 
 export class Accounts extends BaseModel implements Account {
@@ -19,13 +21,19 @@ export class Accounts extends BaseModel implements Account {
 
   salt: string;
 
-  externalId?: string;
+  active: boolean;
 
-  status: AccountStatusType['status'];
+  phoneNumber?: string;
 
-  sessions?: Session['id'][] | Session[];
+  detailsId?: string;
 
-  profiles?: Profile['id'][] | Profile[];
+  sessions?: Session[];
+
+  profiles?: Profile;
+
+  details?: AccountDetail;
+
+  emergencyContacts?: AccountEmergencyContact[];
 
   createdAt: string;
 
@@ -37,20 +45,36 @@ export class Accounts extends BaseModel implements Account {
 
   static get relationMappings() {
     return {
-      accountStatus: {
+      details: {
         relation: BaseModel.HasOneRelation,
-        modelClass: AccountStatusTypes,
+        modelClass: AccountDetails,
         join: {
-          from: `${AccountStatusTypes.tableName}.status`,
-          to: `${this.tableName}.status`,
+          from: `${this.tableName}.details_id`,
+          to: `${AccountDetails.tableName}.id`,
+        },
+      },
+      emergencyContacts: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: AccountEmergencyContacts,
+        join: {
+          from: `${this.tableName}.id`,
+          to: `${AccountEmergencyContacts.tableName}.account_id`,
         },
       },
       sessions: {
         relation: BaseModel.HasManyRelation,
         modelClass: Sessions,
         join: {
-          from: `${Sessions.tableName}.id`,
-          to: `${this.tableName}.sessions`,
+          from: `${this.tableName}.id`,
+          to: `${Sessions.tableName}.account_id`,
+        },
+      },
+      profile: {
+        relation: BaseModel.HasOneRelation,
+        modelClass: Profiles,
+        join: {
+          from: `${this.tableName}.profile_id`,
+          to: `${Profiles.tableName}.id`,
         },
       },
     };

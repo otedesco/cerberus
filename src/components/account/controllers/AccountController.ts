@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { createResponse } from '../../../handlers';
 import { Account } from '../interfaces/Account';
-import * as AccountService from '../services/AccountService';
+import { AccountService } from '../services';
 
 export async function verify(req: Request, res: Response): Promise<void> {
   const token = _.get(req.headers, 'x-verification-token', null) as string;

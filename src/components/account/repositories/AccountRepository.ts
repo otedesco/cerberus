@@ -1,5 +1,6 @@
 import { QueryBuilder, Transaction } from 'objection';
 
+import { InternalServerException } from '../../../exceptions';
 import { Account } from '../interfaces/Account';
 import { Accounts } from '../models';
 
@@ -20,6 +21,8 @@ export async function create(account: Partial<Account>, tx?: Transaction) {
   return Accounts.query(tx).insert(account);
 }
 
-export async function update({ email, data }: { email: Account['email']; data: Partial<Account> }, tx?: Transaction) {
-  return Accounts.query(tx).patch(data).where(`${Accounts.tableName}.email`, '=', email).returning('*').first();
+export async function update({ email, ...args }: Partial<Account>, tx?: Transaction) {
+  if (!email) throw new InternalServerException();
+
+  return Accounts.query(tx).patch(args).where(`${Accounts.tableName}.email`, '=', email).returning('*').first();
 }

@@ -3,14 +3,13 @@ import { notifySync } from '@otedesco/notify';
 import _ from 'lodash';
 import { Transaction } from 'objection';
 
-import { SessionService } from '..';
 import { PUBLIC_KEY, SALT_ROUNDS, SECRET_KEY, VERIFICATION_TOKEN_EXPIRE, Topics, Components, EventsByComponent, TESTING_OTP } from '../../../configs';
-import { AccountStatus } from '../../../enums';
-import { ForbiddenException } from '../../../exceptions';
-import { UnauthorizedException } from '../../../exceptions';
-import { ValidationException } from '../../../exceptions';
+import { AccountStatus, VerificationStatusEnum } from '../../../enums';
+import { ForbiddenException, UnauthorizedException, ValidationException } from '../../../exceptions';
 import { Account, SecuredAccount, Session } from '../interfaces';
-import * as CachedRepository from '../repositories/CachedAccountRepository';
+import { CachedAccountRepository } from '../repositories';
+
+import { SessionService, AccountDetailsService } from './';
 
 const topic = Topics[Components.ACCOUNT];
 const events = EventsByComponent[Components.ACCOUNT];
@@ -22,6 +21,7 @@ function sanitize(account: Account): SecuredAccount {
 }
 
 function signVerificationToken(account: SecuredAccount): SecuredAccount {
+  // TODO: move this logic to OTP generator on '@otedesco/commons'
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const token = sign({ email: account.email, otp }, SECRET_KEY, { expiresIn: `${VERIFICATION_TOKEN_EXPIRE}s` });
 
@@ -29,7 +29,7 @@ function signVerificationToken(account: SecuredAccount): SecuredAccount {
 }
 
 async function validateAccount({ email }: Partial<Account>): Promise<void> {
-  const account = await CachedRepository.findOne({ email });
+  const account = await CachedAccountRepository.findOne({ email });
   if (account) throw new ValidationException({ status: 400 });
 }
 
@@ -48,26 +48,28 @@ async function mapAccountData(account: Partial<Account>): Promise<Partial<Accoun
   return accountData;
 }
 
-export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: boolean = true) {
+export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: true): Promise<SecuredAccount | null>;
+export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: false): Promise<Account | null>;
+export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: boolean = true): Promise<SecuredAccount | Account | null> {
   if (!filters) return null;
-  const account = await CachedRepository.findOne(filters);
+  const account = await CachedAccountRepository.findOne(filters);
   if (account && filters.signedSession) {
     // session last acctivity implementation  if signed account exist
     SessionService.update({ id: filters.signedSession, accountId: account.id, lastActivityLog: 'reading account' });
     // filters = _.omit(filters, 'signed_session');
   }
 
-  if (sanitizeResult) {
+  if (sanitizeResult && account) {
     return sanitize(account) as SecuredAccount;
   }
 
-  return account;
+  return account as Account;
 }
 
 export async function create(payload: Partial<Account>, tx?: Transaction): Promise<SecuredAccount> {
   await validateAccount(payload);
   const accountData = await mapAccountData(payload);
-  const account = sanitize(await CachedRepository.create(accountData, tx));
+  const account = sanitize(await CachedAccountRepository.create(accountData, tx));
 
   const signedAccount = signVerificationToken(account);
   // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
@@ -101,8 +103,11 @@ export async function verifyEmail({ token, otp }: { token?: string; otp: string 
   // FIXME: remove this after testing
   if (![payload.otp, TESTING_OTP].includes(otp)) throw new UnauthorizedException();
 
-  const account = await CachedRepository.update({ email: payload.email, status: AccountStatus.VERIFIED });
+  // FIXME: update status in AccountDetails Table
+  const account = await findOne({ email: payload.email }, false);
+
   if (account) {
+    await AccountDetailsService.upsert(account, { emailVerificationStatus: VerificationStatusEnum.VERIFIED });
     // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
     notifySync(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['status'] });
   }
@@ -111,7 +116,7 @@ export async function verifyEmail({ token, otp }: { token?: string; otp: string 
 }
 
 export async function recovery({ email }: Partial<Account>) {
-  const account = await findOne({ email });
+  const account = await findOne({ email }, true);
   if (!account?.id) return;
   // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
   await notifySync(topic, events.RecoveryEvent, signVerificationToken(account));
@@ -121,10 +126,10 @@ export async function recovery({ email }: Partial<Account>) {
 
 export async function changePassword({ password }: Partial<Account>, token: string): Promise<void> {
   const payload = verify<Partial<Account>>(token, PUBLIC_KEY);
-  if (!payload) throw new ForbiddenException();
+  if (!payload || !payload.email) throw new ForbiddenException();
 
   const [hash, salt] = await generateHash(password!, SALT_ROUNDS);
-  const account = await CachedRepository.update({ email: payload.email, password: hash, salt });
+  const account = await CachedAccountRepository.update({ email: payload.email, password: hash, salt });
   if (account) {
     // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
     notifySync(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['password'] });
@@ -136,4 +141,20 @@ export async function changePassword({ password }: Partial<Account>, token: stri
 export async function createInvitation({ email }: { email: string }): Promise<void> {
   // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
   notifySync(topic, events.InviteEvent, { email });
+}
+
+export async function update(account: Partial<Account>, tx?: Transaction): Promise<Account | undefined> {
+  const updatableKeys = ['active', 'detailsId', 'phoneNumber'];
+  const updatedParams = _.pick(account, updatableKeys);
+
+  // TODO: Make phone number verification status unverified if it is updated
+  // TODO: Make email verification status unverified if it is updated
+  const results = await CachedAccountRepository.update(updatedParams, tx);
+
+  if (results) {
+    // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
+    notifySync(topic, events.UpdatedEvent, { ...sanitize(results), updated: updatableKeys });
+  }
+
+  return results;
 }

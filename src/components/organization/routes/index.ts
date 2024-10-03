@@ -1,1 +1,1 @@
-export { OrganizationRoute } from './OrganizationRoute';
+export { default as OrganizationRoute } from './OrganizationRoute';

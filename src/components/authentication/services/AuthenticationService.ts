@@ -17,7 +17,7 @@ function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, retur
 
   return async (tx: Transaction) => {
     const account = await AccountService.create(accountToCreate, tx);
-    const profile = await ProfileService.create({ ...profileToCreate, account: account.id }, tx);
+    const profile = await ProfileService.create({ ...profileToCreate, accountId: account.id }, tx);
 
     if (returning) return { ...account, profile: profile };
   };
@@ -48,5 +48,5 @@ export function signIn(payload: SignIn) {
 export async function refreshToken(token: string) {
   if (!token) throw new UnauthorizedException();
 
-  return signSession(AccountService.findOne(verify(token, REFRESH_PUBLIC_KEY)));
+  return signSession(AccountService.findOne(verify(token, REFRESH_PUBLIC_KEY), true));
 }

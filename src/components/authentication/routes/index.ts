@@ -1,2 +1,2 @@
-export { AuthenticationRoute } from './AuthenticationRoute';
-export { PrivateAuthenticationRoute } from './PrivateAuthorizationRoute';
+export { default as AuthenticationRoute } from './AuthenticationRoute';
+export { default as PrivateAuthenticationRoute } from './PrivateAuthorizationRoute';

@@ -3,10 +3,10 @@ import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
 import { validateIncomingData, validateQuery } from '../../../middlewares';
-import * as Controller from '../controllers/AccountController';
-import * as Validator from '../validators/AccountValidator';
+import { AccountController as Controller } from '../controllers';
+import { AccountValidator as Validator } from '../validators';
 
-export class AccountRoute implements Route {
+class AccountRoute implements Route {
   public path: string;
 
   public router: Router;
@@ -29,3 +29,5 @@ export class AccountRoute implements Route {
     );
   }
 }
+
+export default new AccountRoute();

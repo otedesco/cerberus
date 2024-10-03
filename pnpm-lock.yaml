@@ -15,8 +15,8 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5(knex@2.5.1(pg@8.12.0))
       '@otedesco/notify':
-        specifier: ^0.0.4
-        version: 0.0.4(knex@2.5.1(pg@8.12.0))
+        specifier: ^0.0.5
+        version: 0.0.5(knex@2.5.1(pg@8.12.0))
       '@otedesco/server-utils':
         specifier: ^0.0.3
         version: 0.0.3
@@ -588,8 +588,8 @@ packages:
   '@otedesco/commons@0.0.5':
     resolution: {integrity: sha512-ZZypyA6HgvpdYRJD/8xh0Av5KLljRqMnLCb1qrxMeAL05HaRzhwEn25It4AHXRtQX/J6GNclWRydl6K4mvVtIw==, tarball: https://npm.pkg.github.com/download/@otedesco/commons/0.0.5/61580233e05b0c4e6c2ffb41796cab0bc08641c1}
 
-  '@otedesco/notify@0.0.4':
-    resolution: {integrity: sha512-2mRPAFXKdmnipXqFlfiFpgeBKApAkYs3op5ailNCyQznfcaeJtlrFavrZQsg5+lseFDHH/di8gUnlAKDvuFbXw==, tarball: https://npm.pkg.github.com/download/@otedesco/notify/0.0.4/857a61cb212bcf49f8ef6937073f6a151a69083c}
+  '@otedesco/notify@0.0.5':
+    resolution: {integrity: sha512-7Qg2QsTPeJJ+C3x6HScupwq01aNBYTvoMd76wPy+meisXbf27mM4DFE0H0eAt8aeMG2rGC1McyDeWPRINt8NRg==, tarball: https://npm.pkg.github.com/download/@otedesco/notify/0.0.5/1b209dbca3d57d5d361896d168147d317b689c14}
 
   '@otedesco/server-utils@0.0.3':
     resolution: {integrity: sha512-7rsd9/snzK6+fdQQLiiYtqVAjcvHWgrALOgPg+lbUcCnfq/B8MLH1Evx3eKPoScQoxkym3RKjpMeo/IV4HHKAw==, tarball: https://npm.pkg.github.com/download/@otedesco/server-utils/0.0.3/a408e97985ad30f72bd0f931e80601577466f836}
@@ -4304,7 +4304,7 @@ snapshots:
     transitivePeerDependencies:
       - knex
 
-  '@otedesco/notify@0.0.4(knex@2.5.1(pg@8.12.0))':
+  '@otedesco/notify@0.0.5(knex@2.5.1(pg@8.12.0))':
     dependencies:
       '@azure/service-bus': 7.9.5
       '@otedesco/commons': 0.0.2(knex@2.5.1(pg@8.12.0))

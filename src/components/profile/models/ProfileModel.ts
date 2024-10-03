@@ -5,7 +5,9 @@ import { Account } from '../../account';
 import { Accounts } from '../../account/models';
 import { Role } from '../../roles';
 import { Roles } from '../../roles/models';
-import { Profile } from '../interfaces';
+import { Profile, ProfileDetail } from '../interfaces';
+
+import { ProfileDetails } from './ProfileDetailsModel';
 
 export class Profiles extends BaseModel implements Profile {
   id!: string;
@@ -18,7 +20,9 @@ export class Profiles extends BaseModel implements Profile {
 
   roles: Role['id'][] | Role[];
 
-  account: Account['id'] | Account;
+  accountId: Account['id'];
+
+  detailsId?: ProfileDetail['id'];
 
   createdAt: string;
 
@@ -32,6 +36,14 @@ export class Profiles extends BaseModel implements Profile {
         join: {
           from: `${this.tableName}.id`,
           to: `${Roles.tableName}.profile_id`,
+        },
+      },
+      details: {
+        relation: BaseModel.HasOneRelation,
+        modelClass: ProfileDetails,
+        join: {
+          from: `${this.tableName}.details_id`,
+          to: `${ProfileDetails.tableName}.id`,
         },
       },
       accounts: {
