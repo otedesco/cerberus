@@ -1,3 +1,5 @@
+import { Profile } from '.';
+
 export interface ProfileDetail {
   id: string;
   location?: string;
@@ -9,6 +11,8 @@ export interface ProfileDetail {
   maritalStatus?: string;
   nationality?: string;
   about?: string;
+
+  profileId: Profile['id'];
 
   createdAt: Date;
   updatedAt?: Date | null;

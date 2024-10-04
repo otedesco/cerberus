@@ -1,7 +1,7 @@
 import { BaseModel, ModelObject } from '@otedesco/commons';
 
 import { PROFILE_DETAILS_TABLE } from '../../../configs';
-import { ProfileDetail } from '../interfaces';
+import { Profile, ProfileDetail } from '../interfaces';
 import { modelSchema } from '../schemas/ProfileDetailsSchema';
 
 import { Profiles } from './ProfileModel';
@@ -26,6 +26,8 @@ export class ProfileDetails extends BaseModel implements ProfileDetail {
   nationality?: string;
 
   about?: string;
+
+  profileId: Profile['id'];
 
   createdAt: Date;
 

@@ -51,22 +51,22 @@ services:
     restart: 'unless-stopped'
     ports:
       - 5432:5432
-  zookeeper:
-    image: wurstmeister/zookeeper:latest
-    ports:
-      - '2181:2181'
-    restart: unless-stopped
-  kafka:
-    image: wurstmeister/kafka:latest
-    ports:
-      - '9092:9092'
-    links:
-      - zookeeper
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
-      # KAFKA_ADVERTISED_HOST_NAME: kafka
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_DELETE_TOPIC_ENABLE: 'true'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  # zookeeper:
+  #   image: wurstmeister/zookeeper:latest
+  #   ports:
+  #     - '2181:2181'
+  #   restart: unless-stopped
+  # kafka:
+  #   image: wurstmeister/kafka:latest
+  #   ports:
+  #     - '9092:9092'
+  #   links:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
+  #     # KAFKA_ADVERTISED_HOST_NAME: kafka
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+  #     KAFKA_DELETE_TOPIC_ENABLE: 'true'
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock

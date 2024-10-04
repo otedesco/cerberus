@@ -15,17 +15,13 @@ export async function up(knex: Knex): Promise<void> {
     table.string('nationality', 45).nullable();
     table.string('about', 400).nullable();
 
-    table.timestamps(true, true);
-  });
+    table.specificType('profile_id', 'uuid').notNullable().unique();
+    table.foreign('profile_id').references('id').inTable(PROFILE_TABLE).onDelete('CASCADE');
 
-  await knex.schema.alterTable(PROFILE_TABLE, (table) => {
-    table.uuid('details_id').notNullable().unique().references('id').inTable(PROFILE_DETAILS_TABLE).onDelete('CASCADE');
+    table.timestamps(true, true);
   });
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.table(PROFILE_TABLE, (table) => {
-    table.dropColumn('details_id');
-  });
   await knex.schema.dropTable(PROFILE_DETAILS_TABLE);
 }

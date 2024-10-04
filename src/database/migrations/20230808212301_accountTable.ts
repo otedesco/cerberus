@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 
-import { ACCOUNT_STATUS_TYPE_TABLE, ACCOUNT_TABLE } from '../../configs/DBConfig';
+import { ACCOUNT_TABLE } from '../../configs/DBConfig';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(ACCOUNT_TABLE, (table) => {
@@ -12,7 +12,6 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamps(true, true);
 
     table.primary(['id', 'email']);
-    table.string('status').notNullable().references('status').inTable(ACCOUNT_STATUS_TYPE_TABLE);
   });
 }
 

@@ -19,7 +19,6 @@ export const PROFILE_TABLE = 'profiles';
 export const ROLE_TABLE = 'roles';
 export const ORGANIZATION_TABLE = 'organizations';
 export const SESSION_TABLE = 'sessions';
-export const ACCOUNT_STATUS_TYPE_TABLE = 'account_status_types';
 export const ROLE_TYPE_TABLE = 'role_types';
 export const INVITATION_TABLE = 'invitations';
 export const ACCOUNT_DETAILS_TABLE = 'account_details';
