@@ -1,5 +1,11 @@
 # @otedesco/cerberus
 
+## 0.0.20
+
+### Patch Changes
+
+- [#41](https://github.com/otedesco/cerberus/pull/41) [`065f488`](https://github.com/otedesco/cerberus/commit/065f4885d97affcf8406274495d8fd1225e0dc41) Thanks [@otedesco](https://github.com/otedesco)! - fix DB relationships
+
 ## 0.0.19
 
 ### Patch Changes
