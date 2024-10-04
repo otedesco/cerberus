@@ -9,13 +9,9 @@ export async function up(knex: Knex): Promise<void> {
     table.string('phone_number', 45).notNullable();
     table.string('email', 45).notNullable();
     table.string('relationship', 45).notNullable();
-    table.string('account_id').notNullable().references('id').inTable(ACCOUNT_TABLE).onDelete('CASCADE');
+    table.uuid('account_id').notNullable().references('id').inTable(ACCOUNT_TABLE).onDelete('CASCADE');
 
     table.timestamps(true, true);
-  });
-
-  await knex.schema.alterTable(ACCOUNT_TABLE, (table) => {
-    table.bigint('emergency_contacts').defaultTo(null).references('id').inTable(ACCOUNT_EMERGENCY_CONTACT_TABLE);
   });
 }
 

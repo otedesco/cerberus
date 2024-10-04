@@ -13,6 +13,7 @@ const properties = {
   maritalStatus: { type: 'string', nullable: true },
   nationality: { type: 'string', nullable: true },
   about: { type: 'string', maxLength: 400, nullable: true },
+  profileId: { type: 'string', minLength: 1 },
 };
 
 export const modelSchema = {

@@ -17,10 +17,6 @@ export async function up(knex: Knex): Promise<void> {
 
     table.timestamps(true, true);
   });
-
-  await knex.schema.alterTable(PROFILE_TABLE, (table) => {
-    table.bigint('roles').defaultTo(null).references('id').inTable(ROLE_TABLE);
-  });
 }
 
 export async function down(knex: Knex): Promise<void> {

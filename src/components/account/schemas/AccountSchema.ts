@@ -15,7 +15,7 @@ export const modelSchema = {
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
   },
-  required: ['email', 'password', 'salt', 'status'],
+  required: ['email', 'password', 'salt'],
 };
 
 export const createSchema = {

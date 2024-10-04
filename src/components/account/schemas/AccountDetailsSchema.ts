@@ -15,6 +15,7 @@ const properties = {
   state: { type: 'string', nullable: true },
   zipcode: { type: 'string', nullable: true },
   country: { type: 'string', nullable: true },
+  accountId: { type: 'string', minLength: 1 },
 };
 
 export const modelSchema = {
@@ -26,7 +27,7 @@ export const modelSchema = {
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
   },
-  required: ['emailVerificationStatus', 'phoneVerificationStatus', 'identityVerificationStatus'],
+  required: ['accountId'],
 };
 
 export const upsertSchema = {

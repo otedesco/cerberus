@@ -13,7 +13,7 @@ export async function update(params: Partial<Session>, tx?: Transaction) {
 }
 
 export async function find({ id }: Account) {
-  const result = await SessionRepository.find({ accountId: id });
+  const result = await SessionRepository.findSimple({ accountId: id });
 
   return result;
 }

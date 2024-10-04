@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Transaction } from 'objection';
 
 import { PUBLIC_KEY, SALT_ROUNDS, SECRET_KEY, VERIFICATION_TOKEN_EXPIRE, Topics, Components, EventsByComponent, TESTING_OTP } from '../../../configs';
-import { AccountStatus, VerificationStatusEnum } from '../../../enums';
+import { VerificationStatusEnum } from '../../../enums';
 import { ForbiddenException, UnauthorizedException, ValidationException } from '../../../exceptions';
 import { Account, SecuredAccount, Session } from '../interfaces';
 import { CachedAccountRepository } from '../repositories';
@@ -34,18 +34,13 @@ async function validateAccount({ email }: Partial<Account>): Promise<void> {
 }
 
 async function mapAccountData(account: Partial<Account>): Promise<Partial<Account>> {
-  const accountData = {
-    ...account,
-    status: AccountStatus.EMAIL_VERIFICATION_PENDING,
-  };
-
   if (account.password) {
     const [hash, salt] = await generateHash(account.password, SALT_ROUNDS);
 
-    return { ...accountData, password: hash, salt };
+    return { ...account, password: hash, salt };
   }
 
-  return accountData;
+  return account;
 }
 
 export async function findOne(filters: Partial<Account & SecuredAccount> | null, sanitizeResult: true): Promise<SecuredAccount | null>;
@@ -128,11 +123,14 @@ export async function changePassword({ password }: Partial<Account>, token: stri
   const payload = verify<Partial<Account>>(token, PUBLIC_KEY);
   if (!payload || !payload.email) throw new ForbiddenException();
 
+  const account = await findOne({ email: payload.email }, false);
+  if (!account) throw new UnauthorizedException();
+
   const [hash, salt] = await generateHash(password!, SALT_ROUNDS);
-  const account = await CachedAccountRepository.update({ email: payload.email, password: hash, salt });
-  if (account) {
+  const updatedRecord = await CachedAccountRepository.update({ id: account.id, email: payload.email, password: hash, salt });
+  if (updatedRecord) {
     // TODO: CHANGE TO NOTIFYASYNC AFTER NOTIFY IS FIXED
-    notifySync(topic, events.UpdatedEvent, { ...sanitize(account), updated: ['password'] });
+    notifySync(topic, events.UpdatedEvent, { ...sanitize(updatedRecord), updated: ['password'] });
   }
 
   return;

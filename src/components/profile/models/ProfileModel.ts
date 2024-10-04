@@ -42,8 +42,8 @@ export class Profiles extends BaseModel implements Profile {
         relation: BaseModel.HasOneRelation,
         modelClass: ProfileDetails,
         join: {
-          from: `${this.tableName}.details_id`,
-          to: `${ProfileDetails.tableName}.id`,
+          from: `${this.tableName}.id`,
+          to: `${ProfileDetails.tableName}.profile_id`,
         },
       },
       accounts: {

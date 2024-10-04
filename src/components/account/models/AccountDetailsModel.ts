@@ -2,7 +2,7 @@ import { BaseModel, ModelObject } from '@otedesco/commons';
 
 import { ACCOUNT_DETAILS_TABLE } from '../../../configs';
 import { VerificationStatusType } from '../../../enums';
-import { AccountDetail } from '../interfaces';
+import { Account, AccountDetail } from '../interfaces';
 import { modelSchema } from '../schemas/AccountDetailsSchema';
 
 import { Accounts } from './AccountModel';
@@ -35,6 +35,8 @@ export class AccountDetails extends BaseModel implements AccountDetail {
   createdAt: Date;
 
   updatedAt?: Date | null;
+
+  accountId: Account['id'];
 
   static tableName = ACCOUNT_DETAILS_TABLE;
 

@@ -1,5 +1,7 @@
 import { VerificationStatusType } from 'enums';
 
+import { Account } from './Account';
+
 export interface AccountDetail {
   id: string;
   emailVerificationStatus: VerificationStatusType;
@@ -13,6 +15,8 @@ export interface AccountDetail {
   state?: string;
   zipcode?: string;
   country?: string;
+
+  accountId: Account['id'];
 
   createdAt: Date;
   updatedAt?: Date | null;
