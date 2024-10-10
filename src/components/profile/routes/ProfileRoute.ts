@@ -29,7 +29,8 @@ class ProfileRoute implements Route {
     this.router.patch(`${this.path}/me`, validateIncomingData(ProfileValidator.update), asyncHandler(ProfileController.update));
 
     // Profile Details
-    this.router.patch(`${this.path}/details`, validateIncomingData(ProfileDetailsValidator.createOrUpdate), asyncHandler(ProfileDetailsController.upsert));
+    this.router.patch(`${this.path}/me/details`, validateIncomingData(ProfileDetailsValidator.createOrUpdate), asyncHandler(ProfileDetailsController.upsert));
+    this.router.get(`${this.path}/me/details`, asyncHandler(ProfileDetailsController.findMe));
   }
 }
 
