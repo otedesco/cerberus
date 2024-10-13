@@ -3,15 +3,15 @@ import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
 import { PrivateRoute, deserializeAccount } from '../../../middlewares';
-import { SessionController as Controller } from '../controllers';
+import { SessionController, AccountDetailsController } from '../controllers';
 
-class SessionsRoute implements Route {
+class PrivateAccountRoute implements Route {
   public path: string;
 
   public router: Router;
 
   constructor() {
-    this.path = '/account/sessions';
+    this.path = '/account';
     this.router = Router();
     this.initializeMiddlewares();
     this.initializeRoutes();
@@ -22,8 +22,12 @@ class SessionsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(this.path, asyncHandler(Controller.find));
+    // Sessions
+    this.router.get(`${this.path}/sessions`, asyncHandler(SessionController.find));
+    // Account Details
+    this.router.get(`${this.path}/details`, asyncHandler(AccountDetailsController.findMe));
+    this.router.patch(`${this.path}/details`, asyncHandler(AccountDetailsController.update));
   }
 }
 
-export default new SessionsRoute();
+export default new PrivateAccountRoute();

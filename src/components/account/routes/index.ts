@@ -1,2 +1,2 @@
 export { default as AccountRoute } from './AccountRoute';
-export { default as SessionsRoute } from './SessionRoute';
+export { default as PrivateAccountRoute } from './PrivateAccountRoute';

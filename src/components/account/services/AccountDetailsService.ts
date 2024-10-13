@@ -10,3 +10,7 @@ export async function upsert({ id, detailsId }: Account, params: Partial<Account
 
   return AccountDetailsRepository.create({ accountId: id, ...params }, tx);
 }
+
+export async function findOne(params: Partial<AccountDetail>): Promise<AccountDetail | undefined> {
+  return AccountDetailsRepository.findOneSimple(params);
+}
