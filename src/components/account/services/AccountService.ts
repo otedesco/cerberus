@@ -49,9 +49,7 @@ export async function findOne(filters: Partial<Account & SecuredAccount> | null,
   if (!filters) return null;
   const account = await CachedAccountRepository.findOne(filters);
   if (account && filters.signedSession) {
-    // session last acctivity implementation  if signed account exist
     SessionService.update({ id: filters.signedSession, accountId: account.id, lastActivityLog: 'reading account' });
-    // filters = _.omit(filters, 'signed_session');
   }
 
   if (sanitizeResult && account) {

@@ -17,3 +17,7 @@ export async function find({ id }: Account) {
 
   return result;
 }
+
+export async function findOne(filter: Partial<Session>) {
+  return CachedSessionRepository.findOne(filter);
+}
