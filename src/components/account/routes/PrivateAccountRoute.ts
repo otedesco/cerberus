@@ -3,7 +3,7 @@ import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
 import { PrivateRoute, deserializeAccount } from '../../../middlewares';
-import { SessionController, AccountDetailsController } from '../controllers';
+import { SessionController, AccountDetailsController, AccountController } from '../controllers';
 
 class PrivateAccountRoute implements Route {
   public path: string;
@@ -22,6 +22,9 @@ class PrivateAccountRoute implements Route {
   }
 
   private initializeRoutes() {
+    // Account
+    this.router.post(`${this.path}/resend-verification-code`, asyncHandler(AccountController.resendVerificationCode));
+
     // Sessions
     this.router.get(`${this.path}/sessions`, asyncHandler(SessionController.find));
     // Account Details

@@ -27,3 +27,11 @@ export async function changePassword(req: Request, res: Response) {
 
   res.status(status).json({ data });
 }
+
+export const resendVerificationCode = async (_req: Request, res: Response) => {
+  const { account } = res.locals;
+
+  const { status, data } = await createResponse(AccountService.resendVerificationCode(account));
+
+  res.status(status).json({ data });
+};

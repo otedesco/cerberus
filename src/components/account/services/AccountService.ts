@@ -154,3 +154,12 @@ export async function update(account: Partial<Account>, tx?: Transaction): Promi
 
   return results;
 }
+
+export const resendVerificationCode = async (account: Account) => {
+  await AccountDetailsService.upsert(account, { emailVerificationStatus: VerificationStatusEnum.VERIFICATION_REQUESTED });
+
+  const signedAccount = await signVerificationToken(account);
+  notifySync(topic, events.CreatedEvent, { ...sanitize(account), signedAccount });
+
+  return { token: signedAccount.token };
+};
