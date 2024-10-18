@@ -30,7 +30,6 @@ const updateVerificationStatus = (value: 'email' | 'sms', status: VerificationSt
 });
 
 function signVerificationToken(account: SecuredAccount, method: 'email' | 'sms' = 'email'): SecuredAccount {
-  console.log('account', method);
   // TODO: move this logic to OTP generator on '@otedesco/commons'
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const token = sign({ accountId: account.id, email: account.email, phoneNumber: account.phoneNumber, otp, method }, SECRET_KEY, {
@@ -140,7 +139,6 @@ export async function verifyEmail({ token, otp }: { token?: string; otp: string 
 
   const payload = verify<Partial<{ accountId: string; email: string; phoneNumber: string; otp: string; method: 'email' | 'sms' }>>(token, PUBLIC_KEY);
   if (!payload) throw new UnauthorizedException();
-  console.log('payload', payload);
   // FIXME: remove this after testing
   if (![payload.otp, TESTING_OTP].includes(otp)) throw new UnauthorizedException();
 
