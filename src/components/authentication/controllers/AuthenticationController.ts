@@ -17,8 +17,8 @@ export async function signIn(req: Request, res: Response): Promise<void> {
   const payload: SignIn = req.body;
 
   const { status, data } = await resolveResponse(AuthenticationService.signIn(payload));
-  res.cookie('accessToken', data.access_token, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
-  res.cookie('refreshToken', data.refresh_token, REFRESH_TOKEN_COOKIE_OPTIONS as CookieOptions);
+  res.cookie('accessToken', data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
+  res.cookie('refreshToken', data.refreshToken, REFRESH_TOKEN_COOKIE_OPTIONS as CookieOptions);
   res.cookie('loggedIn', true, {
     ...ACCESS_TOKEN_COOKIE_OPTIONS,
     httpOnly: false,
