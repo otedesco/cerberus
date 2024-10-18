@@ -4,13 +4,13 @@ import { Model } from 'objection';
 
 import {
   AccountRoute,
+  PrivateAccountRoute,
   AuthenticationRoute,
-  KnexMigrationRoute,
-  OrganizationRoute,
   PrivateAuthenticationRoute,
   ProfileRoute,
+  OrganizationRoute,
   RoleRoute,
-  SessionsRoute,
+  KnexMigrationRoute,
 } from './components';
 import { APP_CACHE_ENABLED, PORT, CACHE_HOST, CACHE_PORT } from './configs';
 import knex, { testDBConnection } from './database';
@@ -19,7 +19,7 @@ import { handleError, logError } from './middlewares';
 const { logger } = LoggerFactory.getInstance(__filename);
 
 const publicRoutes = [AuthenticationRoute, AccountRoute];
-const privateRoutes = [PrivateAuthenticationRoute, OrganizationRoute, RoleRoute, ProfileRoute, SessionsRoute];
+const privateRoutes = [PrivateAuthenticationRoute, OrganizationRoute, RoleRoute, ProfileRoute, PrivateAccountRoute];
 const adminRoutes = [KnexMigrationRoute];
 
 const serverConfig: ConfigOptions = {

@@ -8,7 +8,7 @@ const properties = {
     items: { type: 'string' }, // TODO: Add enum
     nullable: true,
   },
-  birthdate: { type: 'string', format: 'date', nullable: true },
+  birthdate: { type: 'string', format: 'date-time', nullable: true },
   gender: { type: 'string', nullable: true },
   maritalStatus: { type: 'string', nullable: true },
   nationality: { type: 'string', nullable: true },

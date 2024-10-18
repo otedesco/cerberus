@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { QueryBuilder, Transaction } from 'objection';
 
-import { Account } from '../../account';
 import { Profile } from '../interfaces';
 import { Profiles } from '../models';
 
@@ -19,9 +18,9 @@ function resolveRelations(query: QueryBuilder<Profiles>) {
 }
 
 const filterQuery = (query: QueryBuilder<Profiles, Profiles[]>, filter: Partial<Profile>) => {
-  const { id, account } = filter;
+  const { id, accountId } = filter;
 
-  if (account) query.where(`${Profiles.tableName}.account`, '=', _.get(account, 'id', account) as Account['id']);
+  if (accountId) query.where(`${Profiles.tableName}.account_id`, '=', accountId);
   if (id) query.where(`${Profiles.tableName}.id`, id);
 
   return query;

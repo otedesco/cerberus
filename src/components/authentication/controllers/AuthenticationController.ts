@@ -17,8 +17,8 @@ export async function signIn(req: Request, res: Response): Promise<void> {
   const payload: SignIn = req.body;
 
   const { status, data } = await resolveResponse(AuthenticationService.signIn(payload));
-  res.cookie('accessToken', data.access_token, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
-  res.cookie('refreshToken', data.refresh_token, REFRESH_TOKEN_COOKIE_OPTIONS as CookieOptions);
+  res.cookie('accessToken', data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
+  res.cookie('refreshToken', data.refreshToken, REFRESH_TOKEN_COOKIE_OPTIONS as CookieOptions);
   res.cookie('loggedIn', true, {
     ...ACCESS_TOKEN_COOKIE_OPTIONS,
     httpOnly: false,
@@ -28,7 +28,7 @@ export async function signIn(req: Request, res: Response): Promise<void> {
 }
 
 export async function signOut(_req: Request, res: Response): Promise<void> {
-  // TODO: implement logout logic
+  await AuthenticationService.signOut(res.locals.session);
 
   res.cookie('accessToken', '', { maxAge: 1 });
   res.cookie('refreshToken', '', { maxAge: 1 });
@@ -41,7 +41,7 @@ export async function refreshAuthorization({ cookies }: Request, res: Response):
   const refreshToken = _.get(cookies, 'refreshToken', null);
   const { status, data } = await resolveResponse(AuthenticationService.refreshToken(refreshToken));
 
-  res.cookie('accessTtoken', data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
+  res.cookie('accessToken', data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS as CookieOptions);
   res.cookie('loggedIn', true, {
     ...ACCESS_TOKEN_COOKIE_OPTIONS,
     httpOnly: false,

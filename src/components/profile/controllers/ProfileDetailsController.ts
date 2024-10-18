@@ -9,3 +9,10 @@ export async function upsert(req: Request, res: Response): Promise<void> {
 
   res.status(status).json({ data });
 }
+
+export async function findMe(_req: Request, res: Response): Promise<void> {
+  const { profile } = res.locals;
+  const { status, data } = await resolveResponse(ProfileDetailsService.findOne({ profileId: profile.id }));
+
+  res.status(status).json({ data });
+}

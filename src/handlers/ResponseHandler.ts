@@ -1,16 +1,14 @@
-import { BaseException, ResourceNotFoundError } from '@otedesco/commons';
 import _ from 'lodash';
+
+import { ResourceNotFoundException } from '../exceptions/ResourceNotFoundException';
 
 const buildResponse = <T>(status: number, data: T): { status: number; data: T } => ({ status, data });
 
 export const success = (data: any) => buildResponse(200, data);
 
-export const notFound = (data: any) => {
-  throw new BaseException({
+export const notFound = (data: object | null) => {
+  throw new ResourceNotFoundException({
     data,
-    status: 404,
-    code: ResourceNotFoundError.code,
-    message: ResourceNotFoundError.message,
   });
 };
 
