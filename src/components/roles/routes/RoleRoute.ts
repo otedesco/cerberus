@@ -2,8 +2,9 @@ import { Route } from '@otedesco/server-utils';
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
-import { deserializeAccount, PrivateRoute } from '../../../middlewares';
+import { deserializeAccount, PrivateRoute, validateIncomingData } from '../../../middlewares';
 import * as Controller from '../controllers/RoleController';
+import { RolesValidator } from '../validators';
 
 export class RoleRoute implements Route {
   public path: string;
@@ -23,6 +24,7 @@ export class RoleRoute implements Route {
 
   private initializeRoutes() {
     this.router.get(this.path, asyncHandler(Controller.find));
+    this.router.post(`${this.path}`, validateIncomingData(RolesValidator.create), asyncHandler(Controller.create));
   }
 }
 

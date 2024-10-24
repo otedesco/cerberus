@@ -27,7 +27,6 @@ const createFromKeyword = ({ params, message }: any) => {
 const mapErrors = (errors: any[], code: string) =>
   errors.reduce((arrayResult, error) => {
     const { instancePath } = error;
-
     const errorObj = !instancePath || instancePath === '' ? createFromKeyword(error) : createFromDataPath(error);
 
     return [...arrayResult, { code, ...errorObj }];
@@ -51,9 +50,9 @@ export class ValidationException extends Error implements CustomError {
     this.validationErrors = mapErrors(errors, code);
   }
 
-  static buildFromMessage(message: string) {
+  static buildFromMessage(message: string, params = {}) {
     return new ValidationException({
-      errors: [{ keyword: DEFAULT_KEYWORD, message, params: {} }],
+      errors: [{ keyword: DEFAULT_KEYWORD, message, params }],
     });
   }
 }

@@ -8,8 +8,6 @@ export async function findOne(params: Partial<AccountDetail>): Promise<AccountDe
 }
 
 export async function upsert(accountId: Account['id'], params: Partial<AccountDetail>, tx?: Transaction): Promise<AccountDetail | undefined> {
-  console.log('params', params);
-  console.log('accountId', accountId);
   const details = await findOne({ accountId });
   if (details) {
     return AccountDetailsRepository.update({ ...params, id: details.id }, tx);

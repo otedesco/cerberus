@@ -8,7 +8,7 @@ import { Profiles } from '../../profile/models';
 import { Role, RoleType } from '../interfaces';
 
 export class Roles extends BaseModel implements Role {
-  id!: number;
+  id!: string;
 
   role: RoleType['role'];
 
