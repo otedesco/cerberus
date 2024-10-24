@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 const properties = {
   id: { type: 'string', minLength: 1 },
   email: { type: 'string' },
-  phoneNMber: { type: 'string', nullable: true },
+  phoneNumber: { type: 'string', nullable: true },
   password: { type: 'string' },
   salt: { type: 'string' },
 };
@@ -65,4 +67,19 @@ export const changePasswordSchema = {
     },
   },
   required: ['password', 'passwordConfirmation'],
+};
+
+export const updateSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: _.pick(properties, ['phoneNumber']),
+  required: ['phoneNumber'],
+};
+
+export const resendVerificationCodeSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    method: { type: 'string', enum: ['email', 'sms'], nullable: true },
+  },
 };

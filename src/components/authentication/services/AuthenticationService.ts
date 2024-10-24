@@ -3,13 +3,15 @@ import _ from 'lodash';
 import { Transaction } from 'objection';
 
 import { REFRESH_PUBLIC_KEY, REFRESH_SECRET_KEY, SECRET_KEY, SESSION_EXPIRE, TOKEN_EXPIRE } from '../../../configs';
+import { RoleType } from '../../../enums';
 import { UnauthorizedException } from '../../../exceptions';
 import { Transaction as Transactional } from '../../../utils';
-import { Account, SecuredAccount, AccountService, SignedSession } from '../../account';
+import { Account, SecuredAccount, AccountService, SignedSession, SessionService, Session } from '../../account';
 import { ProfileService } from '../../profile';
+import { RoleService } from '../../roles';
 import { SignIn } from '../interfaces';
 
-const tokenSub: (keyof SecuredAccount)[] = ['email', 'signedSession'];
+const tokenSub: (keyof SecuredAccount)[] = ['email', 'id', 'signedSession'];
 
 function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, returning = false) {
   const accountToCreate = _.omit(payload, ['passwordConfirmation', 'name', 'lastname']);
@@ -18,8 +20,9 @@ function transactionalCreate(payload: Pick<Account, 'email' | 'password'>, retur
   return async (tx: Transaction) => {
     const account = await AccountService.create(accountToCreate, tx);
     const profile = await ProfileService.create({ ...profileToCreate, accountId: account.id }, tx);
+    const role = await RoleService.create({ profileId: profile.id, role: RoleType.BASIC_USER }, tx);
 
-    if (returning) return { ...account, profile: profile };
+    if (returning) return { ...account, profile, role };
   };
 }
 
@@ -49,4 +52,8 @@ export async function refreshToken(token: string) {
   if (!token) throw new UnauthorizedException();
 
   return signSession(AccountService.findOne(verify(token, REFRESH_PUBLIC_KEY), true));
+}
+
+export async function signOut(session: Session) {
+  await SessionService.update({ id: session.id, accountId: session.accountId, active: false });
 }

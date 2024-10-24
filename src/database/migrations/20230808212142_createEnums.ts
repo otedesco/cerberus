@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
 
     table.timestamps(true, true);
   });
-  await knex(ROLE_TYPE_TABLE).insert(Object.values(RoleType).map((role) => ({ role })));
+  await knex(ROLE_TYPE_TABLE).insert([RoleType.OWNER, RoleType.ADMIN, RoleType.READ_ONLY, RoleType.WRITE].map((role) => ({ role })));
 }
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable(ROLE_TYPE_TABLE);

@@ -27,3 +27,21 @@ export async function changePassword(req: Request, res: Response) {
 
   res.status(status).json({ data });
 }
+
+export const resendVerificationCode = async (req: Request, res: Response) => {
+  const { account } = res.locals;
+  const { method } = req.query as { method: 'email' | 'sms' | undefined };
+
+  const { status, data } = await createResponse(AccountService.resendVerificationCode(account, method));
+
+  res.status(status).json({ data });
+};
+
+export const update = async (req: Request, res: Response) => {
+  const payload: Partial<Account> = req.body;
+  const { account } = res.locals;
+
+  const { status, data } = await createResponse(AccountService.update({ ...payload, id: account.id, email: account.email }), { code: 204 });
+
+  res.status(status).json({ data });
+};

@@ -14,7 +14,7 @@ export async function update(req: Request, res: Response): Promise<void> {
   const {
     profile: { id, accountId },
   } = res.locals;
-  const { status, data } = await resolveResponse(ProfileService.update({ id, accountId, ...req.body }));
+  const { status, data } = await resolveResponse(ProfileService.update({ ...req.body, id, accountId }));
 
   res.status(status).json({ data });
 }
