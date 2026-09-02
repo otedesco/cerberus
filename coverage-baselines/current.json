@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repository": "otedesco/cerberus",
+  "commit": "origin/main",
+  "timestamp": "2026-09-02T00:00:00Z",
+  "metrics": {
+    "statements": { "covered": 0, "total": 0, "percent": 0 },
+    "branches": { "covered": 0, "total": 0, "percent": 0 },
+    "functions": { "covered": 0, "total": 0, "percent": 0 },
+    "lines": { "covered": 0, "total": 0, "percent": 0 }
+  }
+}

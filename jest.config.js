@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  coverageReporters: ['text', 'json-summary', 'lcov', 'cobertura'],
+  coverageReporters: ['text', 'json', 'json-summary', 'lcov', 'cobertura'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
