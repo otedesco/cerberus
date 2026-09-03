@@ -4,8 +4,9 @@ import { Profile } from '../../profile';
 import { RoleType } from './RoleType';
 
 export interface Role {
-  id?: number;
+  id?: string;
   role: RoleType['role'];
+  avatarUrl?: string;
   profileId?: Profile['id'];
   organizationId?: Organization['id'];
   profile?: Profile;

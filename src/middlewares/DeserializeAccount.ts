@@ -1,9 +1,10 @@
 import { verify } from '@otedesco/commons';
 import { LoggerFactory } from '@otedesco/server-utils';
-import { NextFunction, Request, Response } from 'express';
+import { Handler, NextFunction, Request, Response } from 'express';
+import asyncHandler from 'express-async-handler';
 import _ from 'lodash';
 
-import { AccountService } from '../components/account';
+import { Account, AccountService, Session, SessionService } from '../components/account';
 import { ProfileService } from '../components/profile';
 import { Role } from '../components/roles';
 import { PUBLIC_KEY, REFRESH_PUBLIC_KEY } from '../configs/AppConfig';
@@ -11,50 +12,57 @@ import { UnauthorizedException } from '../exceptions/UnauthorizedException';
 
 const { logger } = LoggerFactory.getInstance(__filename);
 
-function getAccessToken(req: Request): string | null {
-  const authorizationHeader = req.get('authorization');
-  if (authorizationHeader && authorizationHeader.startsWith('Bearer')) return authorizationHeader.split(' ')[1];
-  const authorizationCookie = _.get(req.cookies, 'access_token', null);
-  if (authorizationCookie) return authorizationCookie;
+const getAccessToken = (req: Request): string | null => _.get(req.cookies, 'accessToken', req.get('authorization')?.split(' ')[1] ?? null);
 
-  return null;
-}
+const getRefreshToken = (req: Request): string | null => _.get(req.cookies, 'refreshToken');
 
-function getRefreshToken({ cookies }: Request): string | null {
-  const refreshToken = _.get(cookies, 'refresh_token');
+const getToken = (accessToken: string | null, refreshToken: string | null) =>
+  accessToken ? { token: accessToken, publicKey: PUBLIC_KEY } : refreshToken ? { token: refreshToken, publicKey: REFRESH_PUBLIC_KEY } : null;
 
-  return refreshToken;
-}
+const verifyToken = (tokenInfo: { token: string; publicKey: string }) =>
+  verify<{ email: Account['email']; signedSession: Session['id']; id: Account['id'] }>(tokenInfo.token, tokenInfo.publicKey);
 
-export async function deserializeAccount(req: Request, res: Response, next: NextFunction) {
-  // FIXME: For some reason this middleware is being executed 3 times on the same request
-  //        (hit GET v1/role/ to reproduce the error)
-  //        This is a very hacky fix but it is avoiding unnecessary calls to Redis and Postgress
-  //        if you feel lucky when this bug finds you try to fix it.
-  //        Love you,
-  //        Os
-  if (res.locals.account) return next();
+const deserializeData = async (data: { email: string; signedSession: string; id: string }) => {
+  const session = await SessionService.findOne({
+    id: data.signedSession,
+    accountId: data.id,
+  });
 
-  logger.info(`Account deserialization attempt ${new Date()} `);
-  const accessToken = getAccessToken(req);
-  const refreshToken = getRefreshToken(req);
-  if (!accessToken && !refreshToken) return next(new UnauthorizedException());
-
-  const publicKey = accessToken ? PUBLIC_KEY : refreshToken ? REFRESH_PUBLIC_KEY : null;
-  if (!publicKey) return next(new UnauthorizedException());
-
-  const data = verify(accessToken || refreshToken, publicKey);
-  if (!data) return next(new UnauthorizedException());
-
+  if (!session.active) throw new UnauthorizedException();
   const account = await AccountService.verifyAccount(data);
   const profile = await ProfileService.findOne({ accountId: account.id });
   const roles = profile?.roles ? _.keyBy(profile.roles as Role[], 'organizationId') : {};
 
-  logger.info(`Account deserialization success: ${JSON.stringify(data)} `);
+  return { account, profile, roles, session };
+};
 
-  res.locals.account = account;
-  res.locals.profile = profile;
-  res.locals.roles = roles;
+const middleware = async (req: Request, res: Response, next: NextFunction) => {
+  if (res.locals.account) return next();
+
+  logger.info(`Account deserialization attempt ${new Date()}`);
+
+  const accessToken = getAccessToken(req);
+  const refreshToken = getRefreshToken(req);
+
+  if (!accessToken && !refreshToken) return next(new UnauthorizedException());
+
+  // Extract token and publicKey
+  const tokenInfo = getToken(accessToken, refreshToken);
+  if (!tokenInfo) return next(new UnauthorizedException());
+
+  // Verify token
+  const data = verifyToken(tokenInfo);
+  if (!data) return next(new UnauthorizedException());
+
+  // Handle the deserialization logic
+  const { account, profile, roles, session } = await deserializeData(data);
+
+  // Avoid side effects until after all async tasks complete
+  res.locals = { ...res.locals, account, profile, roles, session };
+
+  logger.info(`Account deserialization success: ${JSON.stringify(data)}`);
 
   return next();
-}
+};
+
+export const deserializeAccount: Handler = asyncHandler(middleware);

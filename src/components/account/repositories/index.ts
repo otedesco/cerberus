@@ -1,4 +1,4 @@
-export * as CachedAccountRepository from './AccountRepository';
+export * as CachedAccountRepository from './CachedAccountRepository';
 export * as CachedSessionRepository from './CachedSessionRepository';
 
 export * as AccountRepository from './AccountRepository';

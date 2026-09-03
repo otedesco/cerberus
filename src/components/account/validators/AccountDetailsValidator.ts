@@ -7,4 +7,4 @@ const ajv = new Ajv({ ...ajvDefaultOptions, $data: true });
 
 addFormats(ajv, ['email']);
 
-export const create = ajv.compile(AccountDetailsSchema.upsertSchema);
+export const update = ajv.compile(AccountDetailsSchema.upsertSchema);

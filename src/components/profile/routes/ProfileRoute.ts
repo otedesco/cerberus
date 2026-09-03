@@ -23,13 +23,13 @@ class ProfileRoute implements Route {
   }
 
   private initializeRoutes() {
-    console.log('initializeRoutes');
     // Profile
     this.router.get(`${this.path}/me`, asyncHandler(ProfileController.findMe));
     this.router.patch(`${this.path}/me`, validateIncomingData(ProfileValidator.update), asyncHandler(ProfileController.update));
 
     // Profile Details
-    this.router.patch(`${this.path}/details`, validateIncomingData(ProfileDetailsValidator.createOrUpdate), asyncHandler(ProfileDetailsController.upsert));
+    this.router.patch(`${this.path}/me/details`, validateIncomingData(ProfileDetailsValidator.createOrUpdate), asyncHandler(ProfileDetailsController.upsert));
+    this.router.get(`${this.path}/me/details`, asyncHandler(ProfileDetailsController.findMe));
   }
 }
 
