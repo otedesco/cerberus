@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repository": "cerberus",
+  "commit": "16f12054a4e77837d16153277364bba826d18442",
+  "timestamp": "2026-09-03T00:00:00Z",
+  "metrics": {
+    "statements": { "covered": 4, "total": 1501, "percent": 0.2664890073284477 },
+    "branches": { "covered": 0, "total": 263, "percent": 0 },
+    "functions": { "covered": 0, "total": 270, "percent": 0 },
+    "lines": { "covered": 4, "total": 1413, "percent": 0.28308563340410475 }
+  }
+}
