@@ -30,7 +30,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/ --fix",
     "lint:check": "eslint --ignore-path .gitignore --ext .ts,.js src/ --max-warnings 0",
     "test": "jest --detectOpenHandles",
-    "test:coverage": "jest --ci --detectOpenHandles --coverage",
+    "test:coverage": "jest --ci --detectOpenHandles --coverage --collectCoverageFrom=\"src/**/*.ts\"",
     "seed": "knex seed:run --knexfile=knexfile.ts --verbose",
     "migrate": "knex migrate:latest --knexfile=knexfile.ts --verbose",
     "rollback": "knex migrate:rollback --knexfile=knexfile.ts --verbose",
